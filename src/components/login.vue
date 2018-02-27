@@ -19,7 +19,6 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-// @import "src/static/styles/login.scss"
+<style rel="stylesheet/scss" lang="scss">
+@import "src/static/styles/login.scss";
 </style>
-
