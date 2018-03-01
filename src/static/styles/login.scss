@@ -1,8 +1,12 @@
-.form_item {
-  input {
-    line-height: 28px;
-    font-size: 20px;
-    margin: 20px 0;
-    color: #666666;
+.container{
+  width: 100%;
+}
+.forms{
+  form{
+    float: left;
+  }
+  .loginForm{
+    width:49%;
+    border-right:1px solid #666;
   }
 }

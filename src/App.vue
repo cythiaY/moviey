@@ -4,6 +4,9 @@
   </div>
 </template>
 
+<script src="static/commom/uikit.min.js"></script>
+<script src="static/commom/uikit-icons.min.js"></script>
+<script src="static/commom/jquery-3.3.1.min.js"></script>
 <script>
 export default {
   name: 'App'
