@@ -1,19 +1,32 @@
-.container{
+.container {
   width: 100%;
   min-height: 700px;
   background-size: cover;
 }
-.floatR{
+
+.floatR {
   padding-right: 0;
 }
-.forms{
-  form{
+
+.forms {
+  form {
     float: left;
     margin-top: 100px;
     padding: 50px 0 0 0;
   }
-  .loginForm{
-    width:49%;
-    border-right:1px solid #fff;
+  .loginForm {
+    width: 49%;
+    border-right: 1px solid #fff;
   }
+}
+
+.hide {
+  display: none;
+}
+
+.warnning {
+  color: #f0506e;
+  margin-left: 30%;
+  text-align: left;
+  font-size: 14px;
 }

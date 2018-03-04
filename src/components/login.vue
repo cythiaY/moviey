@@ -3,14 +3,16 @@
     <div class="forms">
       <form class="loginForm" :model="loginForm">
         <div class="floatR">
-          <input type="text" class="uk-input uk-width-2-5" v-model="loginForm.username" placeholder="用户名">
+          <input type="text" class="uk-input uk-width-2-5" :class="{'uk-form-danger': isloginName}" v-model="loginForm.username" placeholder="用户名" @blur="checkUserName">
+          <div class="warnning uk-width-2-5" :class="{'hide': !isloginName}">请输入正确的用户名</div>
         </div>
         <div class="uk-margin">
-          <input type="password" class="uk-input uk-width-2-5" v-model="loginForm.password" placeholder="密码">
+          <input type="password" class="uk-input uk-width-2-5" :class="{'uk-form-danger': isloginPassword}" v-model="loginForm.password" placeholder="密码" @blur="checkUserPassord">
+          <div class="warnning uk-width-2-5" :class="{'hide': !isloginPassword}">请输入正确的密码</div>
         </div>
         <div class="uk-margin">
           <div class="uk-width-2-5" style="margin-left:30%">
-            <button class="uk-button uk-button-small uk-button-secondary uk-align-left" @click="login">登录</button>
+            <button class="uk-button uk-button-small uk-button-secondary uk-align-left" @click="login">{{loginState}}</button>
             <button class="uk-button uk-button-link uk-align-right" style="line-height:40px">忘记密码</button>
           </div>
         </div>
@@ -37,12 +39,28 @@ export default {
   data () {
     return {
       loginForm: {},
+      loginState: '登录',
+      isloginName: false,
+      isloginPassword: false,
       registerForm: {},
-      bgImg: require('../../src/static/images/login_bg.jpeg'),
-      isloginName: false
+      bgImg: require('../../src/static/images/login_bg.jpeg')
     }
   },
   methods: {
+    checkUserName () {
+      if (this.loginForm.username === '' || !this.loginForm.username) {
+        this.isloginName = true
+      } else {
+        this.isloginName = false
+      }
+    },
+    checkUserPassord () {
+      if (this.loginForm.password === '' || !this.loginForm.password) {
+        this.isloginPassword = true
+      } else {
+        this.isloginPassword = false
+      }
+    },
     /**
      * 登录操作
      * 用户名、密码验证
@@ -55,19 +73,15 @@ export default {
       }
       if (this.loginForm.password === '' || !this.loginForm.password) {
         tag = false
+        this.isloginPassword = true
       }
-      console.log(this.loginForm.username, this.loginForm.password, tag)
       if (tag) {
         var data = {
           userName: this.loginForm.username,
           userPassword: this.loginForm.password
         }
         this.$http.get('http://localhost:8087/user/login', {params: data}, {emulateJSON: true}).then(response => {
-          UIkit.notification({
-            message: '恭喜你注册成功！',
-            status: 'success',
-            pos: 'top-center'
-          })
+          this.$router.push({path: '/index'})
         }, response => {
           console.log('登录失败～')
         })
