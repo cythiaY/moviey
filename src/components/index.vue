@@ -13,7 +13,7 @@
       </div>
     </nav>
     <div style="width:100%;height:80px;"></div>
-    <el-carousel interval="3000" height="500px" autoplay="true" type="card">
+    <el-carousel :interval="3000" height="500px" :autoplay="true" type="card">
       <el-carousel-item>
         <img :src="slide1" alt="">
         <div class="uk-position-center uk-panel"><h1>1</h1></div>
@@ -40,25 +40,27 @@
         <span>L A S T E S T</span>
         <span class="more"><router-link to="#">More</router-link></span>
       </div>
-      <el-row  :gutter="40">
+      <el-row  :gutter="60">
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <router-link :to="'/detail'">
+              <img :src="cover1" alt="">
+            </router-link>
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover2" alt="">
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover3" alt="">
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover4" alt="">
           </el-card>
         </el-col>
       </el-row>
@@ -68,27 +70,37 @@
         <span>H O T</span>
         <span class="more"><router-link to="#">More</router-link></span>
       </div>
-      <el-row  :gutter="40">
+      <el-row  :gutter="60">
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover4" alt="">
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover3" alt="">
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover2" alt="">
           </el-card>
         </el-col>
         <el-col :span="6">
           <el-card>
-            <img :src="slide1" alt="">
+            <img :src="cover1" alt="">
           </el-card>
         </el-col>
+      </el-row>
+    </div>
+    <div class="introduce">
+      <el-row :gutter="80">
+        <el-col :span="12">最新电影资讯</el-col>
+        <el-col :span="12">实时在线推荐</el-col>
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="12">最新电影资讯</el-col>
+        <el-col :span="12">实时在线推荐</el-col>
       </el-row>
     </div>
   </div>
@@ -99,7 +111,11 @@ export default {
   name: 'index',
   data () {
     return {
-      slide1: require('../../src/static/images/login_bg.jpeg')
+      slide1: require('../../src/static/images/bg03.jpeg'),
+      cover1: require('../../src/static/images/cover09.jpeg'),
+      cover2: require('../../src/static/images/cover10.jpeg'),
+      cover3: require('../../src/static/images/cover08.jpg'),
+      cover4: require('../../src/static/images/cover01.jpeg')
     }
   }
 }

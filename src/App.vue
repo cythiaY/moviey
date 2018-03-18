@@ -15,8 +15,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import "static/commom/uikit.min.css";
+@import "static/commom/common.scss";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
