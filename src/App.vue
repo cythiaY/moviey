@@ -7,6 +7,8 @@
 <script src="static/commom/uikit.min.js"></script>
 <script src="static/commom/uikit-icons.min.js"></script>
 <script src="static/commom/jquery-3.3.1.min.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
 export default {
   name: 'App'

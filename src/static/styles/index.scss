@@ -1,0 +1,31 @@
+.top_nav {
+  height: 80px;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: transparent !important;
+  li {
+    line-height: 80px;
+    margin: 0 40px;
+    color: #3B3A3F;
+    font-weight: 400;
+  }
+}
+
+.subTitle {
+  color: #f0506e;
+  text-align: left;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 40px;
+  .more{
+    color: #f0506e !important;
+    text-align: right;
+  }
+}
+
+.newMoives,
+.hotMoives {
+  margin-left: 5%;
+  margin-right: 5%;
+}
