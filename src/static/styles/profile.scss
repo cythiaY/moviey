@@ -1,0 +1,48 @@
+.profile_container {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 100px;
+  .left_content {
+    width: 200px;
+    float: left;
+    img {
+      padding-bottom: 30px;
+      border-bottom: 1px solid #ece7e8;
+    }
+    .name {
+      float: left;
+      margin: 10px 0 15px 0;
+    }
+    .gender {
+      float: right;
+      margin: 10px 0 15px 0;
+    }
+  }
+  .right_content {
+    float: left;
+    margin-left: 100px;
+    .remark {
+      background-color: rgba(240, 80, 110, 0.1);
+      color: #f0506e;
+      width: 80%;
+      text-align: left;
+      border-radius: 4px;
+      padding: 20px 20px;
+      border: 1px solid rgba(240, 80, 110, 0.2);
+    }
+    .el-tabs {
+      margin: 30px 0;
+      width: 80%;
+      .el-tabs__item:hover {
+        color: #f0506e !important;
+        cursor: pointer;
+      }
+      .el-tabs__item.is-active {
+        color: #f0506e !important;
+      }
+      .el-tabs__active-bar {
+        background-color: #f0506e !important;
+      }
+    }
+  }
+}

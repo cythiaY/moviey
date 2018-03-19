@@ -7,7 +7,7 @@
           <li>推荐</li>
           <li>最新</li>
           <li>最热</li>
-          <li>我的</li>
+          <li><router-link to="profile">我的</router-link></li>
           <li>设置</li>
         </ul>
       </div>
