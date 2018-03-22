@@ -1,12 +1,11 @@
 .detail_container {
-  background-size: 100%;
-  background-repeat: no-repeat;
   .go_back {
     position: absolute;
-    top: 60px;
+    top: 120px;
     left: 40px;
     font-size: 40px;
     color: #f0506e;
+    z-index: 99;
   }
   .main_detail {
     padding: 100px 0;
@@ -42,23 +41,13 @@
         .title{
           line-height: 40px;
         }
-        .el-row{
-          margin-left: -20px;
-        }
-        .cast{
-          width:fit-content;
-          margin:10px 20px;
-          padding-left: 5px;
-          text-align: center;
-          border-left: 2px solid #f0506e;
-        }
       }
       .comments{
         .title{
           width: 100%;
-          margin-top: 20px;
-          padding: 10px 0;
-          border-top: 1px solid#828289;
+          margin-top: 40px;
+          padding: 20px 0;
+          border-top: 1px solid#dcdfe6;
         }
         .addComment{
           margin:20px 0;

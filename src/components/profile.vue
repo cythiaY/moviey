@@ -12,7 +12,8 @@
     <div class="right_content">
       <div class="remark">工作时间是IDC行业的程序猿，休息的时候就变成了笔耕不辍的作家，周末还能化身成变出一桌美味菜肴的营养师...</div>
       <el-tabs v-model="first">
-        <el-tab-pane label="评价" name="first">评价</el-tab-pane>
+        <el-tab-pane label="评价" name="first">
+        </el-tab-pane>
         <el-tab-pane label="收藏" name="second">收藏</el-tab-pane>
         <el-tab-pane label="浏览" name="third">浏览</el-tab-pane>
       </el-tabs>
