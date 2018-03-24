@@ -2,35 +2,29 @@
   <div class="index_container">
     <navComponent></navComponent>
     <div style="width:100%;height:120px;"></div>
-    <el-carousel :interval="3000" height="500px" :autoplay="true" type="card">
+    <el-carousel :interval="3000" height="500px" :autoplay="true">
       <el-carousel-item>
-        <img :src="slide1" alt="">
+        <img style="width:80%;margin-left:10%" :src="slide1" alt="">
         <div class="uk-position-center uk-panel">
           <h1>1</h1>
         </div>
       </el-carousel-item>
       <el-carousel-item>
-        <img :src="slide1" alt="">
+        <img style="width:80%;margin-left:10%" :src="slide1" alt="">
         <div class="uk-position-center uk-panel">
           <h1>2</h1>
         </div>
       </el-carousel-item>
       <el-carousel-item>
-        <img :src="slide1" alt="">
+        <img style="width:80%;margin-left:10%" :src="slide1" alt="">
         <div class="uk-position-center uk-panel">
           <h1>3</h1>
         </div>
       </el-carousel-item>
       <el-carousel-item>
-        <img :src="slide1" alt="">
+        <img style="width:80%;margin-left:10%" :src="slide1" alt="">
         <div class="uk-position-center uk-panel">
           <h1>4</h1>
-        </div>
-      </el-carousel-item>
-      <el-carousel-item>
-        <img :src="slide1" alt="">
-        <div class="uk-position-center uk-panel">
-          <h1>5</h1>
         </div>
       </el-carousel-item>
     </el-carousel>

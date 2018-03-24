@@ -1,5 +1,8 @@
 <template>
   <div class="list_container">
+    <router-link :to="'/index'">
+      <div class="go_back el-icon-arrow-left"></div>
+    </router-link>
     <el-row>
       <el-col class="leftNav" :span="6">
         <ul>
@@ -16,16 +19,6 @@
         </ul>
       </el-col>
       <el-col class="rightContent" :span="18">
-        <!-- <ul class="category">
-          <li class="category_item">全部</li>
-          <li class="category_item">爱情</li>
-          <li class="category_item">喜剧</li>
-          <li class="category_item">犯罪</li>
-          <li class="category_item">悬疑</li>
-          <li class="category_item">科幻</li>
-          <li class="category_item">动画</li>
-          <li class="category_item">历史</li>
-        </ul> -->
         <el-tabs v-model="category" @tab-click="handleClick">
           <el-tab-pane label="全部" name="first"></el-tab-pane>
           <el-tab-pane label="爱情" name="second"></el-tab-pane>
