@@ -38,7 +38,7 @@
       <div class="subTitle">
         <span>L A S T E S T</span>
         <span class="more">
-          <router-link to="#">More</router-link>
+          <router-link to="/list">More</router-link>
         </span>
       </div>
       <el-row :gutter="60">
