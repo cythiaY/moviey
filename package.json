@@ -14,6 +14,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "element-ui": "^2.2.2",
     "eslint-plugin-html": "^4.0.2",
     "eslint-plugin-prettier": "^2.6.0",
@@ -21,6 +22,7 @@
     "node-sass": "^4.7.2",
     "uikit": "^3.0.0-beta.40",
     "vue": "^2.5.2",
+    "vue-axios": "^2.0.2",
     "vue-resource": "^1.4.0",
     "vue-router": "^3.0.1"
   },

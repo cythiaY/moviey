@@ -34,85 +34,99 @@
 </template>
 
 <script>
-export default {
-  name: 'login',
-  data () {
-    return {
-      loginForm: {},
-      loginState: '登录',
-      isloginName: false,
-      isloginPassword: false,
-      registerForm: {},
-      bgImg: require('../../src/static/images/login_bg.jpeg')
-    }
-  },
-  methods: {
-    checkUserName () {
-      if (this.loginForm.username === '' || !this.loginForm.username) {
-        this.isloginName = true
-      } else {
-        this.isloginName = false
+  import { userLogin } from '../../src/utils/user'
+  import { getCookie, setCookie } from '../../src/utils/util'
+  export default {
+    name: 'login',
+    data() {
+      return {
+        loginForm: {},
+        loginState: '登录',
+        isloginName: false,
+        isloginPassword: false,
+        registerForm: {},
+        bgImg: require('../../src/static/images/login_bg.jpeg')
       }
     },
-    checkUserPassord () {
-      if (this.loginForm.password === '' || !this.loginForm.password) {
-        this.isloginPassword = true
-      } else {
-        this.isloginPassword = false
-      }
-    },
-    /**
-     * 登录操作
-     * 用户名、密码验证
-     */
-    login () {
-      var tag = true
-      if (this.loginForm.username === '' || !this.loginForm.username) {
-        tag = false
-        this.isloginName = true
-      }
-      if (this.loginForm.password === '' || !this.loginForm.password) {
-        tag = false
-        this.isloginPassword = true
-      }
-      if (tag) {
-        var data = {
-          userName: this.loginForm.username,
-          userPassword: this.loginForm.password
+    methods: {
+      checkUserName() {
+        if (this.loginForm.username === '' || !this.loginForm.username) {
+          this.isloginName = true
+        } else {
+          this.isloginName = false
         }
-        this.$http.get('http://localhost:8087/user/login', {params: data}, {emulateJSON: true}).then(response => {
-          this.$router.push({path: '/index'})
-        }, response => {
-          console.log('登录失败～')
-        })
-      }
-    },
-    register () {
-      var tag = true
-      if (this.registerForm.username === '' || !this.registerForm.username) {
-        tag = false
-        this.isloginName = true
-      }
-      if (this.registerForm.password === '' || !this.registerForm.password) {
-        tag = false
-      }
-      console.log(this.registerForm.username, this.registerForm.password, tag)
-      if (tag) {
-        var data = {
-          userName: this.registerForm.username,
-          userPassword: this.registerForm.password
+      },
+      checkUserPassord() {
+        if (this.loginForm.password === '' || !this.loginForm.password) {
+          this.isloginPassword = true
+        } else {
+          this.isloginPassword = false
         }
-        this.$http.post('http://localhost:8087/user/add', data, {emulateJSON: true}).then(response => {
-          console.log(response.data)
-        }, response => {
-          console.log('注册失败～')
-        })
+      },
+      /**
+       * 登录操作
+       * 用户名、密码验证
+       */
+      login() {
+        var tag = true
+        if (this.loginForm.username === '' || !this.loginForm.username) {
+          tag = false
+          this.isloginName = true
+        }
+        if (this.loginForm.password === '' || !this.loginForm.password) {
+          tag = false
+          this.isloginPassword = true
+        }
+        if (tag) {
+          var data = {
+            userName: this.loginForm.username,
+            userPassword: this.loginForm.password
+          }
+          this.axios
+            .get('http://localhost:8087/user/login', { params: data })
+            .then(response => {
+              setCookie('id', response.data.data, 1000 * 60 * 60)
+              if (response.data.data && response.data.data !== 0) {
+                this.$router.push({ path: '/index' })
+              } else {
+                this.$message.error('用户名密码错误，请重新输入')
+              }
+            })
+            .catch(response => {
+              console.log('login error')
+            })
+        }
+      },
+      register() {
+        var tag = true
+        if (this.registerForm.username === '' || !this.registerForm.username) {
+          tag = false
+          this.isloginName = true
+        }
+        if (this.registerForm.password === '' || !this.registerForm.password) {
+          tag = false
+        }
+        if (tag) {
+          var data = {
+            userName: this.registerForm.username,
+            userPassword: this.registerForm.password
+          }
+          this.$http
+            .post('http://localhost:8087/user/add', data, { emulateJSON: true })
+            .then(
+              response => {
+                console.log(response.data)
+              },
+              response => {
+                console.log('注册失败～')
+              }
+            )
+        }
       }
     }
   }
-}
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-@import "src/static/styles/login.scss";
+@import 'src/static/styles/login.scss';
 </style>
