@@ -1,5 +1,8 @@
 <template>
   <nav class="uk-navbar-container uk-navbar-sticky top_nav" uk-navbar>
+    <div class="logo">
+      <img :src="logo" alt="">
+    </div>
     <div class="uk-navbar-left">
       <ul class="uk-navbar-nav themeRed">
         <li>
@@ -39,6 +42,12 @@
   z-index: 999;
   width: 100%;
   background-color: rgba(238, 238, 238, 0.3) !important;
+  .logo {
+    float: left;
+    img {
+      height: 80px;
+    }
+  }
   li {
     line-height: 80px;
     margin: 0 40px;
@@ -56,7 +65,8 @@
     data() {
       return {
         isLogin: false,
-        userName: ''
+        userName: '',
+        logo: require('../../src/static/images/logo.png')
       }
     },
     mounted() {
