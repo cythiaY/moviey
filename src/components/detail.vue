@@ -70,6 +70,7 @@
 
 <script>
   import navCommon from './nav'
+  import { getCookie } from '../../src/utils/util'
   export default {
     name: 'detail',
     data() {
@@ -210,20 +211,31 @@
         }
         if (tag) {
           console.log(this.commentForm)
+          // 获取用户名
+          // var userData = {
+          //   id: getCookie('id')
+          // }
+          // this.axios
+          //   .get('http://localhost:8087/user/getUserInfo', { params: userData })
+          //   .then(response => {
+          //     this.userName = response.data.data.name
+          //   })
+          //   .catch(response => {
+          //     console.log('getName error')
+          //   })
           var data = {
-            userId: 3,
-            movieId: this.id,
+            userId: parseInt(getCookie('id')),
+            movieId: parseInt(this.id),
             content: this.commentForm.content,
             score: this.commentForm.score
           }
           this.$http
-            .post('http://localhost:8087/comment/addComment', data, {
-              emulateJSON: true
-            })
+            .get('http://localhost:8087/comment/addComment', { params: data })
             .then(
               response => {
                 this.$message.success('评论成功～')
                 this.commentDialogVisiable = false
+                this.getComments()
               },
               response => {
                 this.$message.error('评论失败～')

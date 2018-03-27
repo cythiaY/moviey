@@ -33,6 +33,7 @@
 </template>
 
 <script>
+  import md5 from 'js-md5'
   import { userLogin } from '../../src/utils/user'
   import { getCookie, setCookie } from '../../src/utils/util'
   export default {
@@ -87,6 +88,7 @@
         if (tag) {
           var data = {
             userName: this.loginForm.username,
+            // userPassword: md5(this.loginForm.password)
             userPassword: this.loginForm.password
           }
           this.axios
