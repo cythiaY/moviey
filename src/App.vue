@@ -20,8 +20,7 @@
   export default {
     name: 'App',
     data() {
-      return {
-      }
+      return {}
     }
   }
 </script>
@@ -43,6 +42,9 @@
     img {
       width: 200px;
     }
+  }
+  a {
+    text-decoration: none;
   }
 }
 </style>

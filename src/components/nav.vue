@@ -1,16 +1,16 @@
 <template>
   <nav class="uk-navbar-container uk-navbar-sticky top_nav" uk-navbar>
     <div class="logo">
-      <img :src="logo" alt="">
+      <img src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/logo.png" alt="">
     </div>
     <div class="uk-navbar-left">
       <ul class="uk-navbar-nav themeRed">
         <li>
           <router-link :to="'/index'" class="themeRed">首页</router-link>
         </li>
-        <li>推荐</li>
-        <li>最新</li>
-        <li>最热</li>
+        <li v-if="isIndex">推荐</li>
+        <li v-if="isIndex">最新</li>
+        <li v-if="isIndex">最热</li>
         <li v-if="isLogin">
           <el-dropdown>
             <span class="el-dropdown-link themeRed">
@@ -54,9 +54,6 @@
     font-weight: 400;
   }
   border-top: 3px solid#f0506e;
-  // border-bottom: 1px solid #eee;
-  // box-shadow: 0px 2px 6px #eee;
-  // rgba(240,79,109,0.1)
 }
 </style>
 <script>
@@ -66,11 +63,14 @@
       return {
         isLogin: false,
         userName: '',
-        logo: require('../../src/static/images/logo.png')
+        isIndex: true
       }
     },
     mounted() {
       this.getState()
+      this.$on('isIndex', tag => {
+        this.showIndexNav(tag)
+      })
     },
     methods: {
       // 获取用户登录状态
@@ -92,6 +92,9 @@
           .catch(response => {
             console.log('login error')
           })
+      },
+      showIndexNav(tag) {
+        this.isIndex = tag
       }
     }
   }

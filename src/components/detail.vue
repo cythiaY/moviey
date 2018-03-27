@@ -1,9 +1,7 @@
 <template>
   <div class="detail_container">
-    <!-- <navComponent></navComponent> -->
-    <router-link :to="'/index'">
-      <div class="go_back el-icon-arrow-left"></div>
-    </router-link>
+    <navComponent ref="navCom"></navComponent>
+    <div class="go_back el-icon-arrow-left" @click="$router.go(-1)"></div>
     <div class="main_detail">
       <el-row>
         <el-col :span="8">
@@ -18,14 +16,14 @@
               <span class="themeRed">{{movieInfo.score}}</span>
             </span>
             <div class="infos">
-              时长：
-              <span class="themeRed">{{movieInfo.long}}</span>分钟 国家：
+              国家：
               <span class="themeRed">{{movieInfo.area}}</span>
-              导演：
-              <span class="themeRed">{{movieInfo.director}}</span>
+              <div>导演：
+                <span class="themeRed">{{movieInfo.director}}</span>
+              </div>
               <div>
                 类型：
-                <span class="themeRed">剧情 / 犯罪</span>
+                <span class="themeRed">{{movieInfo.type}}</span>
               </div>
               <div>
                 上映日期：
@@ -86,6 +84,7 @@
     mounted() {
       this.getDetail()
       this.getComments()
+      this.setNav()
     },
     components: {
       navComponent: navCommon
@@ -135,6 +134,9 @@
       }
     },
     methods: {
+      setNav() {
+        this.$refs['navCom'].$emit('isIndex', false)
+      },
       /**
        *
        * 获取电影详情

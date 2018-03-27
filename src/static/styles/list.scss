@@ -2,19 +2,87 @@
   width: 100%;
   background-color: #fafdff;
   padding-top: 60px;
+  .top_nav {
+    height: 80px;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    background-color: rgba(238, 238, 238, 0.3) !important;
+    .logo {
+      float: left;
+      img {
+        height: 80px;
+      }
+    }
+    li {
+      line-height: 80px;
+      margin: 0 40px;
+      font-weight: 400;
+    }
+    border-top: 3px solid#f0506e;
+  }
+  .searchMovie {
+    margin-top: 50px;
+    margin-right: 10%;
+    float: right;
+    position: fixed;
+    right: 0px;
+    top: -30px;
+    z-index: 1000;
+    .displayNone {
+      visibility: hidden;
+    }
+    .displayBlock {
+      display: inline-block;
+    }
+    .el-input {
+      width: auto;
+    }
+    input {
+      border: none;
+      background-color: transparent;
+      border-bottom: 1px solid #f0506e;
+      border-radius: 0;
+      margin-top: 10px;
+      width: 80%;
+    }
+    .append {
+      display: inline-block;
+      border: none;
+      background-color: transparent;
+      font-size: 24px;
+      padding: 0 10px;
+      color: #f0506e;
+    }
+  }
   .go_back {
     margin-left: 40px;
     font-size: 40px;
     color: #f0506e;
   }
   .leftNav {
+    .isActiveLi,
+    .isActiveYear {
+      color: #f0506e;
+      font-size: 26px;
+    }
     ul,
     li {
+      cursor: pointer;
       list-style: none;
       color: #3b3a3f;
       font-size: 20px;
       text-align: center;
       line-height: 80px;
+    }
+    .inputYear {
+      width: 100px;
+      input {
+        background-color: transparent;
+        border: 1px solid #f0506e;
+        border-radius: 30px;
+      }
     }
   }
   .rightContent {
@@ -29,7 +97,17 @@
     .el-tabs__active-bar {
       background-color: #f0506e !important;
     }
+    .nodata {
+      padding: 50px 0;
+      color: #f0506e;
+      text-align: center;
+      line-height: 30px;
+      img {
+        width: 10%;
+      }
+    }
     .listContent {
+      margin-top: 30px;
       .bg {
         margin: 50px 0 40px 0;
         height: 240px;
@@ -51,11 +129,15 @@
             font-weight: 500;
             font-size: 18px;
           }
-          .area {
-            // margin-top: 15%;
-          }
         }
       }
+    }
+    .el-pagination {
+      width: 100%;
+      padding: 10px 0px;
+      margin-bottom: 20px;
+      text-align: right;
+      border-radius: 5px;
     }
   }
 }
