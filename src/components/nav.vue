@@ -22,7 +22,7 @@
                 <router-link :to="'profile'" class="themeRed">我的</router-link>
               </el-dropdown-item>
               <el-dropdown-item>
-                <router-link :to="'login'" class="themeRed">切换账号</router-link>
+                <span class="themeRed" @click="logout">切换账号</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -62,7 +62,7 @@
 }
 </style>
 <script>
-  import { getCookie } from '../../src/utils/util'
+  import { getCookie, delCookie } from '../../src/utils/util'
   export default {
     data() {
       return {
@@ -78,6 +78,10 @@
       })
     },
     methods: {
+      logout() {
+        delCookie('id')
+        this.$router.push({ path: '/login' })
+      },
       // 获取用户登录状态
       getState() {
         if (getCookie('id') && getCookie('id') !== 0) {
