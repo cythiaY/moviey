@@ -4,14 +4,14 @@
       <img src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/logo.png" alt="">
     </div>
     <div class="uk-navbar-left">
-      <ul class="uk-navbar-nav themeRed">
+      <ul class="uk-navbar-nav themeRed" style="width:100%;position:relative">
         <li>
           <router-link :to="'/index'" class="themeRed">首页</router-link>
         </li>
         <li v-if="isIndex">推荐</li>
         <li v-if="isIndex">最新</li>
         <li v-if="isIndex">最热</li>
-        <li v-if="isLogin">
+        <li class="rightLi" v-if="isLogin">
           <el-dropdown>
             <span class="el-dropdown-link themeRed">
               {{userName}}
@@ -27,7 +27,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </li>
-        <li v-else>
+        <li class="rightLi" v-else>
           <router-link :to="'login'" class="themeRed">登录</router-link>
         </li>
       </ul>
@@ -47,6 +47,11 @@
     img {
       height: 80px;
     }
+  }
+  .rightLi {
+    position: absolute;
+    right: 0;
+    margin-right: 400px;
   }
   li {
     line-height: 80px;
