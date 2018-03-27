@@ -79,13 +79,6 @@
       <div :class="{'left':isLeft}">高分电影精选</div>
       <div :class="{'right':isRight}">电影观后点评</div>
     </div>
-    <div class="footer">
-      <img :src="logo" alt="">
-      <div class="text">
-        邮箱 && GitHub：cythia.xy@gmail.com
-      </div>
-      <div>17816869330</div>
-    </div>
   </div>
 </template>
 
@@ -103,7 +96,6 @@
         icon2: require('../../src/static/images/camera.png'),
         bg1: require('../../src/static/images/index_bg.png'),
         bg2: require('../../src/static/images/index_bg2.png'),
-        logo: require('../../src/static/images/logo.png'),
         lastestList: {},
         hotestList: {},
         isLeft: false,

@@ -1,33 +1,32 @@
 <template>
-  <div class="container" :style="{backgroundImage: 'url('+bgImg+')'}">
+  <div class="container">
+    <img class="bg" :src="bgImg" alt="">
+    <img class="logo" :src="logo" alt="">
     <div class="forms">
-      <form class="loginForm" :model="loginForm">
-        <div class="floatR">
-          <input type="text" class="uk-input uk-width-2-5" :class="{'uk-form-danger': isloginName}" v-model="loginForm.username" placeholder="用户名" @blur="checkUserName">
-          <div class="warnning uk-width-2-5" :class="{'hide': !isloginName}">请输入正确的用户名</div>
-        </div>
-        <div class="uk-margin">
-          <input type="password" class="uk-input uk-width-2-5" :class="{'uk-form-danger': isloginPassword}" v-model="loginForm.password" placeholder="密码" @blur="checkUserPassord">
-          <div class="warnning uk-width-2-5" :class="{'hide': !isloginPassword}">请输入正确的密码</div>
-        </div>
-        <div class="uk-margin">
-          <div class="uk-width-2-5" style="margin-left:30%">
-            <button class="uk-button uk-button-small uk-button-secondary uk-align-left" @click="login">{{loginState}}</button>
-            <button class="uk-button uk-button-link uk-align-right" style="line-height:40px">忘记密码</button>
-          </div>
-        </div>
-      </form>
-      <form class="uk-width-1-2" :model="registerForm">
-        <div class="uk-margin">
-          <input type="text" class="uk-input uk-width-2-5" v-model="registerForm.username" placeholder="用户名">
-        </div>
-        <div class="uk-margin">
-          <input type="password" class="uk-input uk-width-2-5" v-model="registerForm.password" placeholder="密码">
-        </div>
-        <div class="uk-margin">
-          <button class="uk-button uk-button-small uk-width-1-5 uk-button-danger" @click="register">注册</button>
-        </div>
-      </form>
+      <el-form class="loginForm" v-if="!isRegisterForm" :rules="rules" :model="loginForm">
+        <el-form-item label="" prop="username">
+          <el-input v-model="loginForm.username" placeholder="登录用户名" @blur="checkUserName"></el-input>
+        </el-form-item>
+        <el-form-item label="" prop="password">
+          <el-input v-model="loginForm.password" type="password" placeholder="登录密码" @blur="checkUserPassord"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <button class="leftBtn" @click="login">{{loginState}}</button>
+          <button class="rightBtn themeBgBlack" @click="isRegisterForm = true;resetForms()">切换注册</button>
+        </el-form-item>
+      </el-form>
+      <el-form class="registerForm" :rules="rules" v-else :model="registerForm">
+        <el-form-item label="" prop="username">
+          <el-input v-model="registerForm.username" placeholder="注册用户名" @blur="checkUserName"></el-input>
+        </el-form-item>
+        <el-form-item label="" prop="password">
+          <el-input v-model="registerForm.password" type="password" placeholder="注册密码" @blur="checkUserPassord"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <button class="leftBtn" @click="register">注册</button>
+          <button class="rightBtn themeBgBlack" @click="isRegisterForm = false;resetForms()">切换登录</button>
+        </el-form-item>
+      </el-form>
       <div style="clear:both"></div>
     </div>
   </div>
@@ -41,11 +40,19 @@
     data() {
       return {
         loginForm: {},
+        registerForm: {},
         loginState: '登录',
         isloginName: false,
         isloginPassword: false,
-        registerForm: {},
-        bgImg: require('../../src/static/images/login_bg.jpeg')
+        isRegisterForm: false,
+        bgImg: require('../../src/static/images/login_bg02.jpg'),
+        logo: require('../../src/static/images/logoW.png'),
+        rules: {
+          username: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          password: [{ required: true, message: '请选择密码', trigger: 'blur' }]
+        }
       }
     },
     methods: {
@@ -95,6 +102,8 @@
             .catch(response => {
               console.log('login error')
             })
+        } else {
+          this.$message.error('请输入正确的用户名密码')
         }
       },
       register() {
@@ -111,17 +120,21 @@
             userName: this.registerForm.username,
             userPassword: this.registerForm.password
           }
-          this.$http
-            .post('http://localhost:8087/user/add', data, { emulateJSON: true })
-            .then(
-              response => {
-                console.log(response.data)
-              },
-              response => {
-                console.log('注册失败～')
-              }
-            )
+          this.$http.get('http://localhost:8087/user/add', { params: data }).then(
+            response => {
+              this.$message.success('注册成功,快去登录吧！')
+              this.isRegisterForm = false
+              this.resetForms()
+            },
+            response => {
+              console.log('注册失败～')
+            }
+          )
         }
+      },
+      resetForms() {
+        this.loginForm = {}
+        this.registerForm = {}
       }
     }
   }
