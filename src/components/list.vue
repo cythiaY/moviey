@@ -96,19 +96,49 @@
       navComponent: navCommon
     },
     methods: {
+      /**
+       *
+       * 设置顶部导航
+       *
+       */
       setNav() {
         this.$refs['navCom'].$emit('isIndex', false)
       },
-      handleCurrentChange() {},
-      searchMovie() {
-        this.getMovieData.keyword = this.keyword
+      /**
+       *
+       * 切换页码
+       *
+       */
+      handleCurrentChange(val) {
+        this.getMovieData.page_no = parseInt(val)
         this.getMovies()
       },
+      /**
+       *
+       * 查询
+       *
+       */
+      searchMovie() {
+        this.getMovieData.keyword = this.keyword
+        this.getMovieData.page_no = 1
+        this.getMovies()
+      },
+      /**
+       *
+       * 切换最新最热类型
+       *
+       */
       changeOrder(tag) {
         this.liTag = tag
         this.getMovieData.orderType = tag
+        this.getMovieData.page_no = 1
         this.getMovies()
       },
+      /**
+       *
+       * 切换年份
+       *
+       */
       changeYear(tag) {
         if (tag === 0) {
           this.getMovieData.year = String(this.yearTag)
@@ -118,6 +148,7 @@
           this.getMovieData.year = String(tag)
         }
         this.yearTag = parseInt(this.getMovieData.year)
+        this.getMovieData.page_no = 1
         this.getMovies()
       },
       /**
@@ -131,8 +162,14 @@
         } else {
           this.getMovieData.movieType = tab.label
         }
+        this.getMovieData.page_no = 1
         this.getMovies()
       },
+      /**
+       *
+       * 获取电影列表（筛选）
+       *
+       */
       getMovies() {
         this.$http
           .get(
@@ -142,13 +179,14 @@
           )
           .then(
             response => {
-              this.total = response.data.data.length
+              this.total = response.data.data.total
               if (this.total > 0) {
                 this.isDataNull = false
               } else {
                 this.isDataNull = true
               }
-              this.listData = response.data.data.slice(0, 10)
+              this.listData = response.data.data.records
+              console.log(response.data.data.records)
             },
             response => {
               console.log('获取失败～')

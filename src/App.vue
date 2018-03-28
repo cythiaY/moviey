@@ -35,6 +35,7 @@
   // text-align: center;
   color: #2c3e50;
   .footer {
+    clear: both;
     padding-left: 0 10%;
     text-align: center;
     height: 200px;

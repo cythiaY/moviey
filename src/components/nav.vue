@@ -19,7 +19,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
-                <router-link :to="'profile'" class="themeRed">我的</router-link>
+                <router-link :to="'/profile'" class="themeRed">我的</router-link>
               </el-dropdown-item>
               <el-dropdown-item>
                 <span class="themeRed" @click="logout">切换账号</span>
@@ -28,7 +28,7 @@
           </el-dropdown>
         </li>
         <li class="rightLi" v-else>
-          <router-link :to="'login'" class="themeRed">登录</router-link>
+          <router-link :to="'/login'" class="themeRed">登录</router-link>
         </li>
       </ul>
     </div>
@@ -78,30 +78,46 @@
       })
     },
     methods: {
+      /**
+       *
+       * 用户注销 删除cookie
+       *
+       */
       logout() {
         delCookie('id')
         this.$router.push({ path: '/login' })
       },
-      // 获取用户登录状态
+      /**
+       *
+       * 获取用户登录状态
+       *
+       */
       getState() {
         if (getCookie('id') && getCookie('id') !== 0) {
           this.isLogin = true
         }
-        // 获取用户名
-        var data = {
-          id: getCookie('id')
+        if (this.isLogin) {
+          // 获取用户名
+          var data = {
+            userId: parseInt(getCookie('id'))
+          }
+          this.axios
+            .get('http://localhost:8087/user/getUserInfo', { params: data })
+            .then(response => {
+              this.userName = response.data.data.nickname
+                ? response.data.data.nickname
+                : response.data.data.name
+            })
+            .catch(response => {
+              console.log('login error')
+            })
         }
-        this.axios
-          .get('http://localhost:8087/user/getUserInfo', { params: data })
-          .then(response => {
-            this.userName = response.data.data.nickname
-              ? response.data.data.nickname
-              : response.data.data.name
-          })
-          .catch(response => {
-            console.log('login error')
-          })
       },
+      /**
+       *
+       * 设置nav内容
+       *
+       */
       showIndexNav(tag) {
         this.isIndex = tag
       }

@@ -111,6 +111,11 @@
       navComponent: navCommon
     },
     methods: {
+      /**
+       *
+       * 监听页面滚动事件
+       *
+       */
       handleScroll() {
         var scrollHeight =
           window.pageYOffset ||
@@ -124,6 +129,11 @@
           this.isRight = false
         }
       },
+      /**
+       *
+       * 获取最新电影
+       *
+       */
       getLastMovies() {
         this.$http
           .get(
@@ -140,6 +150,11 @@
             }
           )
       },
+      /**
+       *
+       * 获取最热电影
+       *
+       */
       getHostMovies() {
         this.$http
           .get(

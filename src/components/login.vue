@@ -57,6 +57,11 @@
       }
     },
     methods: {
+      /**
+       *
+       * 检查用户名输入
+       *
+       */
       checkUserName() {
         if (this.loginForm.username === '' || !this.loginForm.username) {
           this.isloginName = true
@@ -64,6 +69,11 @@
           this.isloginName = false
         }
       },
+      /**
+       *
+       * 检查密码输入
+       *
+       */
       checkUserPassord() {
         if (this.loginForm.password === '' || !this.loginForm.password) {
           this.isloginPassword = true
@@ -108,6 +118,11 @@
           this.$message.error('请输入正确的用户名密码')
         }
       },
+      /**
+       *
+       * 用户注册
+       *
+       */
       register() {
         var tag = true
         if (this.registerForm.username === '' || !this.registerForm.username) {
@@ -134,6 +149,11 @@
           )
         }
       },
+      /**
+       *
+       * 重置表单
+       *
+       */
       resetForms() {
         this.loginForm = {}
         this.registerForm = {}

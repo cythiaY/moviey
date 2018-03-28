@@ -135,6 +135,11 @@
       }
     },
     methods: {
+      /**
+       *
+       * 设置顶部导航
+       *
+       */
       setNav() {
         this.$refs['navCom'].$emit('isIndex', false)
       },

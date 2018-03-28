@@ -4,8 +4,8 @@
       <el-card class="box-card">
         <img :src="headImg" alt="">
         <div>
-          <span class="name">Cythia_yyy</span>
-          <span class="gender themeRed">女</span>
+          <span class="name">{{userInfo.nickname | filterNull}}</span>
+          <span class="editBtn themeRed" @click="isEdit=!isEdit">编辑</span>
         </div>
       </el-card>
     </div>
@@ -17,18 +17,59 @@
         <el-tab-pane label="收藏" name="second">收藏</el-tab-pane>
         <el-tab-pane label="浏览" name="third">浏览</el-tab-pane>
       </el-tabs>
+      <el-form v-if="isEdit" :model="editForm">
+        <el-form-item label="名称">
+          <el-input v-model="editForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域">
+          <el-input v-model="editForm.region"></el-input>
+        </el-form-item>
+        <el-form-item label="活动形式">
+          <el-input v-model="editForm.type"></el-input>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      headImg: require('../../src/static/images/headImg.jpg')
+  import { getCookie } from '../../src/utils/util'
+  export default {
+    data() {
+      return {
+        userInfo: {},
+        editForm: {},
+        isEdit: false,
+        headImg: require('../../src/static/images/headImg.jpg')
+      }
+    },
+    mounted() {
+      this.getUserInfo()
+    },
+    filters: {
+      filterNull: function(val) {
+        if (!val || val === '') return '快改个昵称吧'
+        return val
+      }
+    },
+    methods: {
+      getUserInfo() {
+        if (getCookie('id') && getCookie('id') !== 0) {
+          var data = {
+            userId: parseInt(getCookie('id'))
+          }
+          this.axios
+            .get('http://localhost:8087/user/getUserInfo', { params: data })
+            .then(response => {
+              this.userInfo = response.data.data
+            })
+            .catch(response => {
+              console.log('getInfo error')
+            })
+        }
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">
