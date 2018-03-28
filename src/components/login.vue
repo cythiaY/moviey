@@ -86,6 +86,7 @@
        * 用户名、密码验证
        */
       login() {
+        console.log(md5('123456'))
         var tag = true
         if (this.loginForm.username === '' || !this.loginForm.username) {
           tag = false
@@ -98,8 +99,8 @@
         if (tag) {
           var data = {
             userName: this.loginForm.username,
-            // userPassword: md5(this.loginForm.password)
-            userPassword: this.loginForm.password
+            userPassword: md5(this.loginForm.password)
+            // userPassword: this.loginForm.password
           }
           this.axios
             .get('http://localhost:8087/user/login', { params: data })
@@ -135,7 +136,7 @@
         if (tag) {
           var data = {
             userName: this.registerForm.username,
-            userPassword: this.registerForm.password
+            userPassword: md5(this.registerForm.password)
           }
           this.$http.get('http://localhost:8087/user/add', { params: data }).then(
             response => {

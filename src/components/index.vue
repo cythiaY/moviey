@@ -138,12 +138,12 @@
         this.$http
           .get(
             'http://localhost:8087/movie/getMovies',
-            { params: { type: 1 } },
+            { params: { orderType: 1 } },
             { emulateJSON: true }
           )
           .then(
             response => {
-              this.lastestList = response.data.data.slice(0, 4)
+              this.lastestList = response.data.data.records.slice(0, 4)
             },
             response => {
               console.log('获取失败～')
@@ -159,12 +159,12 @@
         this.$http
           .get(
             'http://localhost:8087/movie/getMovies',
-            { params: { type: 2 } },
+            { params: { orderType: 2 } },
             { emulateJSON: true }
           )
           .then(
             response => {
-              this.hotestList = response.data.data.slice(0, 4)
+              this.hotestList = response.data.data.records.slice(0, 4)
             },
             response => {
               console.log('获取失败～')

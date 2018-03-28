@@ -27,7 +27,7 @@
               </div>
               <div>
                 上映日期：
-                <span class="themeRed">{{movieInfo.date | toDate}}</span>
+                <span class="themeRed">{{movieInfo.date}} 年</span>
               </div>
               <div class="introduce themeBlack">{{movieInfo.content}}</div>
               <div class="casts">
@@ -161,7 +161,7 @@
           )
           .then(
             response => {
-              this.movieInfo = response.data.data[0]
+              this.movieInfo = response.data.data.records[0]
             },
             response => {
               console.log('获取失败～')
@@ -185,8 +185,7 @@
           )
           .then(
             response => {
-              this.commentList = response.data.data
-              console.log(this.commentList)
+              this.commentList = response.data.data.records
             },
             response => {
               console.log('获取失败～')

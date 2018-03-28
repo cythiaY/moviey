@@ -186,7 +186,6 @@
                 this.isDataNull = true
               }
               this.listData = response.data.data.records
-              console.log(response.data.data.records)
             },
             response => {
               console.log('获取失败～')
