@@ -2,6 +2,7 @@
   width: 80%;
   margin-left: 10%;
   margin-top: 100px;
+  min-height: 600px;
   .left_content {
     width: 200px;
     float: left;
@@ -42,6 +43,16 @@
       }
       .el-tabs__active-bar {
         background-color: #f0506e !important;
+      }
+    }
+    .editForm {
+      width: 60%;
+      border-radius: 4px;
+      padding: 50px 80px 50px 80px;
+      border: 1px solid rgba(240, 80, 110, 0.2);
+      text-align: center;
+      .el-form-item {
+        margin-bottom: 30px !important;
       }
     }
   }
