@@ -1,10 +1,10 @@
 .profile_container {
   width: 80%;
   margin-left: 10%;
-  margin-top: 100px;
+  margin-top: 150px;
   min-height: 600px;
   .left_content {
-    width: 200px;
+    width: 20%;
     float: left;
     img {
       padding-bottom: 30px;
@@ -21,11 +21,12 @@
   }
   .right_content {
     float: left;
-    margin-left: 100px;
+    margin-left: 10%;
+    width: 65%;
     .remark {
       background-color: rgba(240, 80, 110, 0.1);
       color: #f0506e;
-      width: 80%;
+      width: 75%;
       text-align: left;
       border-radius: 4px;
       padding: 20px 20px;

@@ -155,7 +155,7 @@
         }
         this.$http
           .get(
-            'http://localhost:8087/movie/getMovies',
+            'http://localhost:8089/movie/getMovies',
             { params: data },
             { emulateJSON: true }
           )
@@ -179,7 +179,7 @@
         }
         this.$http
           .get(
-            'http://localhost:8087/comment/getComment',
+            'http://localhost:8089/comment/getComment',
             { params: data },
             { emulateJSON: true }
           )
@@ -220,7 +220,7 @@
           //   id: getCookie('id')
           // }
           // this.axios
-          //   .get('http://localhost:8087/user/getUserInfo', { params: userData })
+          //   .get('http://localhost:8089/user/getUserInfo', { params: userData })
           //   .then(response => {
           //     this.userName = response.data.data.name
           //   })
@@ -234,7 +234,7 @@
             score: this.commentForm.score
           }
           this.$http
-            .get('http://localhost:8087/comment/addComment', { params: data })
+            .get('http://localhost:8089/comment/addComment', { params: data })
             .then(
               response => {
                 this.$message.success('评论成功～')

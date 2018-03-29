@@ -18,7 +18,7 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
+              <el-dropdown-item v-if="!isProfile">
                 <router-link :to="'/profile'" class="themeRed">我的</router-link>
               </el-dropdown-item>
               <el-dropdown-item>
@@ -68,13 +68,17 @@
       return {
         isLogin: false,
         userName: '',
-        isIndex: true
+        isIndex: true,
+        isProfile: false
       }
     },
     mounted() {
       this.getState()
       this.$on('isIndex', tag => {
         this.showIndexNav(tag)
+      })
+      this.$on('isProfile', () => {
+        this.showProfileNav()
       })
     },
     methods: {
@@ -102,7 +106,7 @@
             userId: parseInt(getCookie('id'))
           }
           this.axios
-            .get('http://localhost:8087/user/getUserInfo', { params: data })
+            .get('http://localhost:8089/user/getUserInfo', { params: data })
             .then(response => {
               this.userName = response.data.data.nickname
                 ? response.data.data.nickname
@@ -120,6 +124,9 @@
        */
       showIndexNav(tag) {
         this.isIndex = tag
+      },
+      showProfileNav() {
+        this.isProfile = true
       }
     }
   }

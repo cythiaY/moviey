@@ -173,7 +173,7 @@
       getMovies() {
         this.$http
           .get(
-            'http://localhost:8087/movie/getMovies',
+            'http://localhost:8089/movie/getMovies',
             { params: this.getMovieData },
             { emulateJSON: true }
           )

@@ -103,7 +103,7 @@
             // userPassword: this.loginForm.password
           }
           this.axios
-            .get('http://localhost:8087/user/login', { params: data })
+            .get('http://localhost:8089/user/login', { params: data })
             .then(response => {
               setCookie('id', response.data.data, 1000 * 60 * 60)
               if (response.data.data && response.data.data !== 0) {
@@ -138,7 +138,7 @@
             userName: this.registerForm.username,
             userPassword: md5(this.registerForm.password)
           }
-          this.$http.get('http://localhost:8087/user/add', { params: data }).then(
+          this.$http.get('http://localhost:8089/user/add', { params: data }).then(
             response => {
               this.$message.success('注册成功,快去登录吧！')
               this.isRegisterForm = false

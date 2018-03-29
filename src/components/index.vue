@@ -137,7 +137,7 @@
       getLastMovies() {
         this.$http
           .get(
-            'http://localhost:8087/movie/getMovies',
+            'http://localhost:8089/movie/getMovies',
             { params: { orderType: 1 } },
             { emulateJSON: true }
           )
@@ -158,7 +158,7 @@
       getHostMovies() {
         this.$http
           .get(
-            'http://localhost:8087/movie/getMovies',
+            'http://localhost:8089/movie/getMovies',
             { params: { orderType: 2 } },
             { emulateJSON: true }
           )
