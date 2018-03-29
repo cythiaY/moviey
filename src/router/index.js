@@ -5,6 +5,8 @@ import Login from '@/components/login'
 import Detail from '@/components/detail'
 import Profile from '@/components/profile'
 import List from '@/components/list'
+import CrmLogin from '@/components/crm/login'
+import CrmIndex from '@/components/crm/index'
 
 Vue.use(Router)
 
@@ -39,6 +41,17 @@ export default new Router({
       path: '/list',
       name: 'List',
       component: List
+    },
+    // 以下为CRM路由配置
+    {
+      path: '/crmlogin',
+      name: 'Crmlogin',
+      component: CrmLogin
+    },
+    {
+      path: '/crmindex',
+      name: 'Crmindex',
+      component: CrmIndex
     }
   ]
 })

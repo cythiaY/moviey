@@ -1,9 +1,10 @@
 .container {
   width: 100%;
   min-height: 700px;
+  background-color: #f0506e;
   .bg {
     float: left;
-    opacity: 0.90;
+    opacity: 0.9;
   }
   .logo {
     float: left;
@@ -11,6 +12,17 @@
     width: 20%;
     margin-top: -50%;
     position: relative;
+  }
+  .bgColor {
+    height: 840px;
+    width: 100%;
+    background-color: #fecee4;
+  }
+  .crmTitle {
+    float: left;
+    margin-top: -44%;
+    text-align: center;
+    width: 100%;
   }
 }
 
