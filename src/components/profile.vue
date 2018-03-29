@@ -14,10 +14,16 @@
       <div class="right_content">
         <div class="remark">工作时间是IDC行业的程序猿，休息的时候就变成了笔耕不辍的作家，周末还能化身成变出一桌美味菜肴的营养师...</div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="评价" name="first">
+          <el-tab-pane label="收藏" name="first">
+            <div class="starMovie" v-for="item in starList" :key="item.id">
+              <div>
+                <router-link class="themeBlack" :to="'/detail/' + item.id">{{item.name}}</router-link>
+                <span class="score">{{item.score}}分</span>
+              </div>
+              <div>{{item.type}}</div>
+            </div>
           </el-tab-pane>
-          <el-tab-pane label="收藏" name="second"></el-tab-pane>
-          <el-tab-pane label="浏览" name="third"></el-tab-pane>
+          <el-tab-pane label="浏览" name="second"></el-tab-pane>
         </el-tabs>
         <el-form class="editForm" label-position="left" label-width="80px" v-if="isEdit" :model="editForm">
           <h3>个人信息修改</h3>
@@ -72,7 +78,9 @@
           passwordAfter: [
             { required: true, message: '请输入新密码', trigger: 'blur' }
           ]
-        }
+        },
+        starIdArr: [],
+        starList: []
       }
     },
     mounted() {
@@ -128,6 +136,11 @@
             .then(response => {
               this.userInfo = response.data.data
               this.editForm = response.data.data
+              var stars = response.data.data.star // 用户收藏
+              if (stars) {
+                this.starIdArr = stars.substring(0, stars.length - 1).split(':')
+                this.getMoviesList()
+              }
             })
             .catch(response => {
               console.log('getInfo error')
@@ -161,6 +174,7 @@
        */
       passwordSubmit() {
         this.$refs['passwordForm'].validate(valid => {
+          console.log(valid)
           if (valid) {
             var data = {
               userId: parseInt(getCookie('id')),
@@ -170,17 +184,47 @@
             this.axios
               .get('http://localhost:8089/user/resetPsd', { params: data })
               .then(response => {
-                this.$message.success('更改密码成功～')
+                if (response.data.data) {
+                  this.$message.success('更改密码成功～')
+                } else {
+                  this.$message.error('旧密码输入错误！')
+                }
                 this.passwordForm = {}
               })
               .catch(response => {
                 console.log('editPsd error')
               })
-            console.log('111')
           } else {
             this.$message.error('请先填写表单')
           }
         })
+      },
+      /**
+       *
+       * 获取用户收藏电影列表
+       *
+       */
+      getMoviesList() {
+        this.starIdArr.forEach(element => {
+          var data = {
+            id: element
+          }
+          this.$http
+            .get(
+              'http://localhost:8089/movie/getMovies',
+              { params: data },
+              { emulateJSON: true }
+            )
+            .then(
+              response => {
+                this.starList.push(response.data.data.records[0])
+              },
+              response => {
+                console.log('获取失败～')
+              }
+            )
+        })
+        console.log(this.starList)
       }
     }
   }

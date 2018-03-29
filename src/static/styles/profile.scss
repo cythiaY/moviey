@@ -56,5 +56,19 @@
         margin-bottom: 30px !important;
       }
     }
+    .el-tabs__content {
+      padding-top: 20px;
+    }
+    .starMovie {
+      padding: 10px;
+      margin-bottom: 15px;
+      background-color: #faeff1;
+      border-radius: 4px;
+      color: #f0506e;
+      line-height: 30px;
+      .score {
+        margin-left: 20px;
+      }
+    }
   }
 }

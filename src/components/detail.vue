@@ -183,7 +183,12 @@
           )
           .then(
             response => {
-              this.isStar = response.data.data.star.indexOf(this.id + ':') > -1
+              let str = response.data.data.star
+              if (str) {
+                this.isStar = str.indexOf(this.$route.params.id + ':') > -1
+              } else {
+                this.isStar = false
+              }
             },
             response => {
               console.log('获取失败～')
