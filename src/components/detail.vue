@@ -7,6 +7,9 @@
         <el-col :span="8">
           <div class="left_img">
             <img :src="movieInfo.imgUrl" alt="">
+            <div :class="isStar ? 'el-icon-star-on' : 'el-icon-star-off'" @click="isStar=!isStar;starMovie()">
+              <span>{{isStar ? '取消收藏':'点击收藏'}}</span>
+            </div>
           </div>
         </el-col>
         <el-col :span="14">
@@ -79,7 +82,8 @@
         movieInfo: {},
         commentList: {},
         commentDialogVisiable: false,
-        commentForm: {}
+        commentForm: {},
+        isStar: false
       }
     },
     mounted() {
@@ -167,6 +171,24 @@
               console.log('获取失败～')
             }
           )
+        // 获取用户收藏记录
+        var userData = {
+          userId: parseInt(getCookie('id'))
+        }
+        this.$http
+          .get(
+            'http://localhost:8089/user/getUserInfo',
+            { params: userData },
+            { emulateJSON: true }
+          )
+          .then(
+            response => {
+              this.isStar = response.data.data.star.indexOf(this.id + ':') > -1
+            },
+            response => {
+              console.log('获取失败～')
+            }
+          )
       },
       /**
        *
@@ -214,19 +236,6 @@
           tag = false
         }
         if (tag) {
-          console.log(this.commentForm)
-          // 获取用户名
-          // var userData = {
-          //   id: getCookie('id')
-          // }
-          // this.axios
-          //   .get('http://localhost:8089/user/getUserInfo', { params: userData })
-          //   .then(response => {
-          //     this.userName = response.data.data.name
-          //   })
-          //   .catch(response => {
-          //     console.log('getName error')
-          //   })
           var data = {
             userId: parseInt(getCookie('id')),
             movieId: parseInt(this.id),
@@ -246,6 +255,29 @@
               }
             )
         }
+      },
+      /**
+       *
+       * 收藏／取消收藏电影
+       *
+       */
+      starMovie() {
+        var data = {
+          userId: parseInt(getCookie('id')),
+          movieId: parseInt(this.id),
+          tag: this.isStar
+        }
+        this.$http
+          .get('http://localhost:8089/user/starMovie', { params: data })
+          .then(
+            response => {
+              this.$message.success('操作成功～')
+            },
+            response => {
+              this.$message.error('操作失败～')
+              this.isStar = !this.isStar
+            }
+          )
       }
     }
   }

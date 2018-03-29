@@ -17,6 +17,16 @@
         border-radius: 2px;
         box-shadow: 8px 8px 8px #ede3e5;
       }
+      .el-icon-star-off,
+      .el-icon-star-on {
+        color: #f0506e;
+        transform: scale(2);
+        margin-top: 50px;
+        padding-left: 5%;
+        span {
+          font-size: 12px;
+        }
+      }
     }
     .right_info {
       margin: 80px 80px 0 0;
