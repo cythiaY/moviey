@@ -4,12 +4,16 @@
       <el-menu-item index="1">电影管理</el-menu-item>
       <el-menu-item index="2">评论管理</el-menu-item>
       <el-menu-item index="3">用户管理</el-menu-item>
+      <el-submenu index="4">
+        <template slot="title">{{userName}}</template>
+        <el-menu-item index="4-1" @click="logout">注销</el-menu-item>
+      </el-submenu>
     </el-menu>
     <el-card class="tables">
       <div v-show="activeIndex == '1'">
         <div class="tableHead">
           <span>电影列表</span>
-          <el-button type="primary" size="medium" icon="el-icon-plus" plain>添加</el-button>
+          <el-button type="primary" size="medium" icon="el-icon-plus" plain @click="movieFormVisible = true">添加</el-button>
           <el-input suffix-icon="el-icon-search" size="medium" v-model="searchMovieInput" placeholder="输入名称关键字" @keyup.enter.native="searchMovie"></el-input>
         </div>
         <el-table :data="movieData" style="width: 100%">
@@ -89,13 +93,53 @@
         </el-pagination>
       </div>
     </el-card>
+    <el-dialog title="添加电影" :visible.sync="movieFormVisible">
+      <el-form class="addForm" :model="addMovieForm">
+        <el-form-item label="名称" label-width="100px">
+          <el-input v-model="addMovieForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="导演" label-width="100px">
+          <el-input v-model="addMovieForm.director"></el-input>
+        </el-form-item>
+        <el-form-item label="演员表" label-width="100px">
+          <el-input v-model="addMovieForm.actor"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" label-width="100px">
+          <el-input v-model="addMovieForm.type"></el-input>
+        </el-form-item>
+        <el-form-item label="国家" label-width="100px">
+          <el-input v-model="addMovieForm.area"></el-input>
+        </el-form-item>
+        <el-form-item label="年份" label-width="100px">
+          <el-input v-model="addMovieForm.date"></el-input>
+        </el-form-item>
+        <el-form-item label="海报地址" label-width="100px">
+          <el-input v-model="addMovieForm.imgUrl"></el-input>
+        </el-form-item>
+        <el-form-item label="评分" label-width="100px">
+          <el-input v-model="addMovieForm.score"></el-input>
+        </el-form-item>
+        <el-form-item label="视频地址" label-width="100px">
+          <el-input v-model="addMovieForm.url"></el-input>
+        </el-form-item>
+        <el-form-item label="电影简介" label-width="100px">
+          <el-input v-model="addMovieForm.content"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="movieFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addMovie">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+  import { getCookie, delCookie } from '../../../src/utils/util'
   export default {
     data() {
       return {
+        userName: '',
         activeIndex: '1',
         movieData: [],
         userData: [],
@@ -111,15 +155,52 @@
         getCommentParams: {},
         searchMovieInput: '',
         searchCommentInput: '',
-        searchUserInput: ''
+        searchUserInput: '',
+        addMovieForm: {},
+        addUserForm: {},
+        movieFormVisible: false,
+        userFormVisible: false
       }
     },
     mounted() {
+      this.getState()
       this.getMovies()
       this.getUsers()
       this.getComments()
     },
     methods: {
+      /**
+       *
+       * 获取用户登录状态
+       *
+       */
+      getState() {
+        if (getCookie('id') && getCookie('id') !== 0) {
+          // 获取用户名
+          var data = {
+            userId: parseInt(getCookie('id'))
+          }
+          this.axios
+            .get('http://localhost:8089/user/getUserInfo', { params: data })
+            .then(response => {
+              this.userName = response.data.data.nickname
+                ? response.data.data.nickname
+                : response.data.data.name
+            })
+            .catch(response => {
+              console.log('login error')
+            })
+        }
+      },
+      /**
+       *
+       * 用户注销 删除cookie
+       *
+       */
+      logout() {
+        delCookie('id')
+        this.$router.push({ path: '/crmlogin' })
+      },
       handleSelect(key) {
         this.activeIndex = key
       },
@@ -337,6 +418,27 @@
         this.getUserParams.page_no = 1
         this.getUsers()
       },
+      /**
+       *
+       * 添加电影
+       *
+       */
+      addMovie() {
+        console.log(this.addMovieForm)
+        var data = {
+          movie: this.addMovieForm
+        }
+        this.axios
+          .get('http://localhost:8089/movie/add/Movies', {
+            params: data
+          })
+          .then(function(response) {
+            console.log(response)
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+      },
       movieDetail() {}
     }
   }
@@ -374,6 +476,10 @@
         float: right;
       }
     }
+  }
+  .addForm {
+    width: 80%;
+    margin-left: 10%;
   }
 }
 </style>
