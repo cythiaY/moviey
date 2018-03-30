@@ -20,19 +20,23 @@
           <el-table-column prop="name" label="名称">
           </el-table-column>
           <el-table-column prop="director" label="导演">
+            <template slot-scope="scope">{{scope.row.director | isNull}}</template>
           </el-table-column>
           <el-table-column prop="type" label="类型">
+            <template slot-scope="scope">{{scope.row.type | isNull}}</template>
           </el-table-column>
           <el-table-column prop="area" label="国家">
+            <template slot-scope="scope">{{scope.row.area | isNull}}</template>
           </el-table-column>
           <el-table-column prop="date" label="上映年份">
           </el-table-column>
           <el-table-column prop="score" label="评分">
+            <template slot-scope="scope">{{scope.row.score | isNull}}</template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="movieDetail(scope.row.id)">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteMovie(scope.row.id, scope.row.name)">删除</el-button>
+              <el-button type="text" size="small" @click="movieEdit(scope.row.id)">编辑</el-button>
+              <el-button type="text" class="deleteBtn" size="small" @click="deleteMovie(scope.row.id, scope.row.name)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -57,8 +61,7 @@
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small">查看</el-button>
-              <el-button type="text" size="small" @click="deleteComment(scope.row.id)">删除</el-button>
+              <el-button type="text" class="deleteBtn" size="small" @click="deleteComment(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -68,24 +71,27 @@
       <div v-show="activeIndex == '3'">
         <div class="tableHead">
           <span>用户列表</span>
-          <el-button type="primary" size="medium" icon="el-icon-plus" plain>添加</el-button>
+          <el-button type="primary" size="medium" icon="el-icon-plus" plain @click="userFormVisible = true">添加</el-button>
           <el-input suffix-icon="el-icon-search" size="medium" placeholder="输入用户名关键字" v-model="searchUserInput" @keyup.enter.native="searchUser"></el-input>
         </div>
         <el-table :data="userData" style="width: 100%">
           <el-table-column prop="name" label="用户名">
           </el-table-column>
           <el-table-column prop="nickname" label="昵称">
+            <template slot-scope="scope">{{scope.row.nickname | isNull}}</template>
           </el-table-column>
           <el-table-column prop="type" label="类型">
+            <template slot-scope="scope">{{scope.row.type | toName}}</template>
           </el-table-column>
           <el-table-column prop="phone" label="手机号">
+            <template slot-scope="scope">{{scope.row.phone | isNull}}</template>
           </el-table-column>
           <el-table-column prop="createTime" label="注册时间">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteUser(scope.row.id, scope.row.name)">删除</el-button>
+              <el-button type="text" size="small" @click="userEdit(scope.row.id)">编辑</el-button>
+              <el-button type="text" class="deleteBtn" size="small" @click="deleteUser(scope.row.id, scope.row.name)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -93,9 +99,10 @@
         </el-pagination>
       </div>
     </el-card>
+    <!-- 添加电影dialog -->
     <el-dialog title="添加电影" :visible.sync="movieFormVisible">
-      <el-form class="addForm" :model="addMovieForm">
-        <el-form-item label="名称" label-width="100px">
+      <el-form class="dialogForm" :model="addMovieForm">
+        <el-form-item label="名称" label-width="100px" required>
           <el-input v-model="addMovieForm.name"></el-input>
         </el-form-item>
         <el-form-item label="导演" label-width="100px">
@@ -110,10 +117,10 @@
         <el-form-item label="国家" label-width="100px">
           <el-input v-model="addMovieForm.area"></el-input>
         </el-form-item>
-        <el-form-item label="年份" label-width="100px">
+        <el-form-item label="年份" label-width="100px" required>
           <el-input v-model="addMovieForm.date"></el-input>
         </el-form-item>
-        <el-form-item label="海报地址" label-width="100px">
+        <el-form-item label="海报地址" label-width="100px" required>
           <el-input v-model="addMovieForm.imgUrl"></el-input>
         </el-form-item>
         <el-form-item label="评分" label-width="100px">
@@ -123,7 +130,7 @@
           <el-input v-model="addMovieForm.url"></el-input>
         </el-form-item>
         <el-form-item label="电影简介" label-width="100px">
-          <el-input v-model="addMovieForm.content"></el-input>
+          <el-input type="textarea" :rows="3" resize="none" v-model="addMovieForm.content"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -131,11 +138,109 @@
         <el-button type="primary" @click="addMovie">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 编辑查看电影dialog -->
+    <el-dialog title="编辑电影信息" :visible.sync="movieEditVisible">
+      <el-form class="dialogForm" :model="editMovieForm">
+        <el-form-item label="名称" label-width="100px" required>
+          <el-input v-model="editMovieForm.name" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="导演" label-width="100px">
+          <el-input v-model="editMovieForm.director"></el-input>
+        </el-form-item>
+        <el-form-item label="演员表" label-width="100px">
+          <el-input v-model="editMovieForm.actor"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" label-width="100px">
+          <el-input v-model="editMovieForm.type"></el-input>
+        </el-form-item>
+        <el-form-item label="国家" label-width="100px">
+          <el-input v-model="editMovieForm.area"></el-input>
+        </el-form-item>
+        <el-form-item label="年份" label-width="100px" required>
+          <el-input v-model="editMovieForm.date"></el-input>
+        </el-form-item>
+        <el-form-item label="海报地址" label-width="100px" required>
+          <el-input v-model="editMovieForm.imgUrl"></el-input>
+        </el-form-item>
+        <el-form-item label="评分" label-width="100px">
+          <el-input v-model="editMovieForm.score"></el-input>
+        </el-form-item>
+        <el-form-item label="视频地址" label-width="100px">
+          <el-input v-model="editMovieForm.url"></el-input>
+        </el-form-item>
+        <el-form-item label="电影简介" label-width="100px">
+          <el-input type="textarea" :rows="3" resize="none" v-model="editMovieForm.content"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="movieEditVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editMovie">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 新增用户dialog -->
+    <el-dialog title="新增用户" :visible.sync="userFormVisible">
+      <el-form class="dialogForm" :model="addUserForm">
+        <el-form-item label="用户名" label-width="100px" required>
+          <el-input v-model="addUserForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="初始密码" label-width="100px" required>
+          <el-input type="password" v-model="addUserForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="昵称" label-width="100px">
+          <el-input v-model="addUserForm.nickname"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" label-width="100px">
+          <el-input v-model="addUserForm.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" label-width="100px" required>
+          <el-select v-model="addUserForm.type" placeholder="类型">
+            <el-option label="管理员" :value="parseInt(1)">
+            </el-option>
+            <el-option label="普通用户" :value="parseInt(2)">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="userFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑用户详情dialog -->
+    <el-dialog title="编辑用户详情" :visible.sync="userEditVisible">
+      <el-form class="dialogForm" :model="editUserForm">
+        <el-form-item label="用户名" label-width="100px" required>
+          <el-input v-model="editUserForm.name" readonly></el-input>
+        </el-form-item>
+        <el-form-item label="昵称" label-width="100px">
+          <el-input v-model="editUserForm.nickname"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" label-width="100px">
+          <el-input v-model="editUserForm.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="类型" label-width="100px" required>
+          <el-select v-model="editUserForm.type" placeholder="类型">
+            <el-option label="管理员" :value="parseInt(1)">
+            </el-option>
+            <el-option label="普通用户" :value="parseInt(2)">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="注册时间" label-width="100px">
+          <el-input v-model="editUserForm.createTime" readonly></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="userEditVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editUser">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import { getCookie, delCookie } from '../../../src/utils/util'
+  import md5 from 'js-md5'
   export default {
     data() {
       return {
@@ -159,7 +264,11 @@
         addMovieForm: {},
         addUserForm: {},
         movieFormVisible: false,
-        userFormVisible: false
+        userFormVisible: false,
+        movieEditVisible: false,
+        userEditVisible: false,
+        editMovieForm: {},
+        editUserForm: {}
       }
     },
     mounted() {
@@ -167,6 +276,19 @@
       this.getMovies()
       this.getUsers()
       this.getComments()
+    },
+    filters: {
+      toName: function(val) {
+        if (val === 1) {
+          return '管理员'
+        } else {
+          return '普通用户'
+        }
+      },
+      isNull: function(val) {
+        if (!val) return '暂无'
+        return val
+      }
     },
     methods: {
       /**
@@ -251,7 +373,7 @@
       getComments() {
         this.$http
           .get(
-            'http://localhost:8089/comment/getComments',
+            'http://localhost:8089/comment/getComment',
             { params: this.getCommentParams },
             { emulateJSON: true }
           )
@@ -424,22 +546,185 @@
        *
        */
       addMovie() {
-        console.log(this.addMovieForm)
+        var tag = true
+        if (this.addMovieForm.imgUrl === '' || !this.addMovieForm.imgUrl) {
+          tag = false
+          this.$message.error('请先填写电影海报地址')
+        }
+        if (this.addMovieForm.date === '' || !this.addMovieForm.date) {
+          tag = false
+          this.$message.error('请先填写电影年份')
+        }
+        if (this.addMovieForm.name === '' || !this.addMovieForm.name) {
+          tag = false
+          this.$message.error('请先填写电影名称')
+        }
+        if (tag) {
+          this.axios
+            .post('http://localhost:8089/movie/add/Movies', this.addMovieForm)
+            .then(function(response) {
+              this.movieFormVisible = false
+              this.addMovieForm = {}
+              this.$message.success('添加电影成功！')
+            })
+            .catch(function(error) {
+              console.log(error)
+            })
+        }
+      },
+      /**
+       *
+       * 查看电影
+       *
+       */
+      movieEdit(id) {
+        this.movieEditVisible = true
+        this.$http
+          .get(
+            'http://localhost:8089/movie/getMovies',
+            {
+              params: {
+                id: id
+              }
+            },
+            { emulateJSON: true }
+          )
+          .then(
+            response => {
+              this.editMovieForm = response.data.data.records[0]
+            },
+            response => {
+              console.log('获取失败～')
+            }
+          )
+      },
+      /**
+       *
+       * 提交编辑电影
+       *
+       */
+      editMovie() {
+        var tag = true
+        if (this.editMovieForm.imgUrl === '' || !this.editMovieForm.imgUrl) {
+          tag = false
+          this.$message.error('请先填写电影海报地址')
+        }
+        if (this.editMovieForm.date === '' || !this.editMovieForm.date) {
+          tag = false
+          this.$message.error('请先填写电影年份')
+        }
+        if (this.editMovieForm.name === '' || !this.editMovieForm.name) {
+          tag = false
+          this.$message.error('请先填写电影名称')
+        }
+        var that = this
+        if (tag) {
+          this.axios
+            .post('http://localhost:8089/movie/update/Movies', this.editMovieForm)
+            .then(function(response) {
+              that.$message.success('编辑电影成功！')
+              that.movieEditVisible = false
+              that.editMovieForm = {}
+              that.getMovies()
+            })
+            .catch(function(error) {
+              console.log(error)
+            })
+        }
+      },
+
+      /**
+       *
+       * 查看用户
+       *
+       */
+      userEdit(id) {
+        this.userEditVisible = true
         var data = {
-          movie: this.addMovieForm
+          userId: parseInt(id)
         }
         this.axios
-          .get('http://localhost:8089/movie/add/Movies', {
-            params: data
+          .get('http://localhost:8089/user/getUserInfo', { params: data })
+          .then(response => {
+            this.editUserForm = response.data.data
           })
-          .then(function(response) {
-            console.log(response)
-          })
-          .catch(function(error) {
-            console.log(error)
+          .catch(response => {
+            console.log('login error')
           })
       },
-      movieDetail() {}
+      /**
+       *
+       * 提交编辑用户
+       *
+       */
+      editUser() {
+        var tag = true
+        if (this.editUserForm.type === '' || !this.editUserForm.type) {
+          tag = false
+          this.$message.error('请先选择用户类型')
+        }
+        var that = this
+        if (tag) {
+          var data = {
+            userId: parseInt(this.editUserForm.id),
+            userNickname: this.editUserForm.nickname,
+            type: this.editUserForm.type,
+            userPhone: this.editUserForm.phone
+          }
+          this.axios
+            .get('http://localhost:8089/user/update', { params: data })
+            .then(function(response) {
+              that.$message.success('编辑用户成功！')
+              that.userEditVisible = false
+              that.editMovieForm = {}
+              that.getUsers()
+            })
+            .catch(function(error) {
+              console.log(error)
+            })
+        }
+      },
+      /**
+       *
+       *添加用户
+       *
+       */
+      addUser() {
+        var tag = true
+        if (this.addUserForm.type === '' || !this.addUserForm.type) {
+          tag = false
+          this.$message.error('请先选择用户类型')
+        }
+        if (this.addUserForm.password === '' || !this.addUserForm.password) {
+          tag = false
+          this.$message.error('请先填写初始密码')
+        }
+        if (this.addUserForm.name === '' || !this.addUserForm.name) {
+          tag = false
+          this.$message.error('请先填写用户名')
+        }
+        var that = this
+        if (tag) {
+          var data = {
+            userName: this.addUserForm.name,
+            userPassword: md5(this.addUserForm.password),
+            userNickName: this.addUserForm.nickname,
+            userType: this.addUserForm.type,
+            userPhone: this.addUserForm.phone
+          }
+          this.axios
+            .get('http://localhost:8089/user/add', { params: data })
+            .then(function(response) {
+              that.$message.success('添加用户成功！')
+              that.userFormVisible = false
+              that.addUserForm = {}
+              that.getUsers()
+            })
+            .catch(function(error) {
+              console.log(error)
+            })
+        }
+      }
     }
   }
 </script>
@@ -458,6 +743,9 @@
     padding: 20px;
     width: 80%;
     margin-left: 10%;
+    .deleteBtn {
+      color: #f56c6c;
+    }
     .el-pagination {
       float: right;
       padding: 20px 0;
@@ -477,7 +765,7 @@
       }
     }
   }
-  .addForm {
+  .dialogForm {
     width: 80%;
     margin-left: 10%;
   }
