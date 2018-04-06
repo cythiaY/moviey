@@ -36,6 +36,37 @@
         margin-left: 48%;
         margin-top: -25px;
         z-index: 997;
+        animation: iconCss 3s infinite linear;
+        -webkit-animation: iconCss 3s infinite linear;
+    }
+    @keyframes iconCss {
+        0% {
+            transform: rotateY(0deg);
+            -webkit-transform: rotateY(0deg);
+        }
+        100% {
+            transform: rotateY(360deg);
+            -webkit-transform: rotateY(360deg);
+        }
+    }
+    .icon2 {
+        position: absolute;
+        width: 50px;
+        margin-left: 48%;
+        margin-top: -25px;
+        z-index: 997;
+        animation: iconCss2 3s infinite linear;
+        -webkit-animation: iconCss2 3s infinite linear;
+    }
+    @keyframes iconCss2 {
+        0% {
+            transform: rotateX(360deg);
+            -webkit-transform: rotateX(360deg);
+        }
+        100% {
+            transform: rotateX(0deg);
+            -webkit-transform: rotateX(0deg);
+        }
     }
     .newMoives,
     .hotMoives,

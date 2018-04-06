@@ -103,6 +103,9 @@
        */
       setNav() {
         this.$refs['navCom'].$emit('isIndex', false)
+        if (this.$route.query.type) {
+          this.changeOrder(this.$route.query.type)
+        }
       },
       /**
        *

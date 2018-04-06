@@ -47,16 +47,16 @@
       <div class="subTitle">
         <div>推 荐</div>
         <div class="more">
-          <router-link to="/list">更 多</router-link>
+          <router-link :to="{path:'/list',query: {type: 3}}">更 多</router-link>
         </div>
       </div>
     </div>
-    <img class="icon1" :src="icon1" alt="">
+    <img class="icon2" :src="icon1" alt="">
     <div id="newMoives" class="newMoives">
       <div class="subTitle">
         <div class="themeBlack">最 新</div>
         <div class="more">
-          <router-link to="/list">更 多</router-link>
+          <router-link :to="{path:'/list',query: {type: 1}}">更 多</router-link>
         </div>
       </div>
       <div style="display:table;height:100%">
@@ -89,11 +89,11 @@
       <div class="subTitle">
         <div>最 热</div>
         <div class="more">
-          <router-link to="/list">更 多</router-link>
+          <router-link :to="{path:'/list',query: {type: 2}}">更 多</router-link>
         </div>
       </div>
     </div>
-    <img class="icon1" :src="icon1" alt="">
+    <img class="icon2" :src="icon1" alt="">
     <div class="introduce" :style="{backgroundImage: 'url(' + bg2 + ')'}">
       <div :class="{'left':isLeft}">个性化推荐</div>
       <div :class="{'right':isRight}">最新电影推荐</div>
