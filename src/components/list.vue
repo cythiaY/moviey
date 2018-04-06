@@ -104,7 +104,11 @@
       setNav() {
         this.$refs['navCom'].$emit('isIndex', false)
         if (this.$route.query.type) {
-          this.changeOrder(this.$route.query.type)
+          if (this.$route.query.type === '3') {
+            this.getRecommendMovies()
+          } else {
+            this.changeOrder(this.$route.query.type)
+          }
         }
       },
       /**
@@ -194,6 +198,29 @@
               console.log('获取失败～')
             }
           )
+      },
+      /**
+       *
+       * 获取推荐电影
+       *
+       */
+      getRecommendMovies() {
+        if (getCookie('id')) {
+          this.$http
+            .get(
+              'http://localhost:8089/movie/recommend/Movies',
+              { params: { user_id: getCookie('id') } },
+              { emulateJSON: true }
+            )
+            .then(
+              response => {
+                this.listData = response.data.data
+              },
+              response => {
+                console.log('获取失败～')
+              }
+            )
+        }
       }
     }
   }

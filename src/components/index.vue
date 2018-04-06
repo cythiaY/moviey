@@ -32,22 +32,30 @@
     </div>
     <img class="icon1" :src="icon2" alt="">
     <div id="recommendMoives" class="recommendMoives" :style="{backgroundImage: 'url(' + bg1 + ')'}">
-      <div style="width:80%;display:table;height:100%;float:left">
-        <el-row :gutter="40">
-          <el-col :span="6" v-for="item in hotestList" :key="item.id">
-            <el-card>
-              <router-link :to="'/detail/' + item.id">
-                <img :src="item.imgUrl" alt="">
-              </router-link>
-              <div class="item_name themeBlack">{{item.name}}</div>
-            </el-card>
-          </el-col>
-        </el-row>
+      <div v-if="isRecommend" style="height:100%">
+        <div style="width:80%;display:table;height:100%;float:left">
+          <el-row :gutter="40">
+            <el-col :span="6" v-for="item in recommendList" :key="item.id">
+              <el-card>
+                <router-link :to="'/detail/' + item.id">
+                  <img :src="item.imgUrl" alt="">
+                </router-link>
+                <div class="item_name themeBlack">{{item.name}}</div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="subTitle">
+          <div>推 荐</div>
+          <div class="more">
+            <router-link :to="{path:'/list',query: {type: 3}}">更 多</router-link>
+          </div>
+        </div>
       </div>
-      <div class="subTitle">
-        <div>推 荐</div>
-        <div class="more">
-          <router-link :to="{path:'/list',query: {type: 3}}">更 多</router-link>
+      <div v-else class="unlogin">
+        <div class="content">
+          <h4 class="themeBlack">请先登录查看</h4>
+          <router-link :to="'/login'" class="themeRed">登录</router-link>
         </div>
       </div>
     </div>
@@ -104,6 +112,7 @@
 </template>
 
 <script>
+  import { getCookie } from '../../src/utils/util'
   import navCommon from './nav'
   export default {
     name: 'index',
@@ -119,13 +128,16 @@
         bg2: require('../../src/static/images/index_bg2.png'),
         lastestList: {},
         hotestList: {},
+        recommendList: {},
         isLeft: false,
-        isRight: false
+        isRight: false,
+        isRecommend: false
       }
     },
     mounted() {
       this.getLastMovies()
       this.getHostMovies()
+      this.getRecommendMovies()
       window.addEventListener('scroll', this.handleScroll)
     },
     components: {
@@ -148,6 +160,32 @@
         } else {
           this.isLeft = false
           this.isRight = false
+        }
+      },
+      /**
+       *
+       * 获取推荐电影
+       *
+       */
+      getRecommendMovies() {
+        if (getCookie('id')) {
+          this.isRecommend = true
+          this.$http
+            .get(
+              'http://localhost:8089/movie/recommend/Movies',
+              { params: { user_id: getCookie('id') } },
+              { emulateJSON: true }
+            )
+            .then(
+              response => {
+                this.recommendList = response.data.data.slice(0, 4)
+              },
+              response => {
+                console.log('获取失败～')
+              }
+            )
+        } else {
+          this.isRecommend = false
         }
       },
       /**

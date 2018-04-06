@@ -36,8 +36,8 @@
         margin-left: 48%;
         margin-top: -25px;
         z-index: 997;
-        animation: iconCss 3s infinite linear;
-        -webkit-animation: iconCss 3s infinite linear;
+        animation: iconCss 6s infinite linear;
+        -webkit-animation: iconCss 6s infinite linear;
     }
     @keyframes iconCss {
         0% {
@@ -55,8 +55,8 @@
         margin-left: 48%;
         margin-top: -25px;
         z-index: 997;
-        animation: iconCss2 3s infinite linear;
-        -webkit-animation: iconCss2 3s infinite linear;
+        animation: iconCss2 6s infinite linear;
+        -webkit-animation: iconCss2 6s infinite linear;
     }
     @keyframes iconCss2 {
         0% {
@@ -73,6 +73,27 @@
     .recommendMoives {
         height: 600px;
         width: 100%;
+    }
+    .recommendMoives {
+        .unlogin {
+            position: relative;
+            height: 100%;
+            .content {
+                position: absolute;
+                top: 50%;
+                text-align: center;
+                left: 50%;
+                margin-left: -60px;
+                margin-top: -36px;
+                a {
+                    background-color: rgba(240, 80, 110, 0.1);
+                    color: #f0506e;
+                    border: 1px solid rgba(240, 80, 110, 0.4);
+                    padding: 5px 30px;
+                    border-radius: 40px;
+                }
+            }
+        }
     }
     .introduce {
         font-size: 24px;
