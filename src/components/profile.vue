@@ -23,7 +23,15 @@
               <div>{{item.type}}</div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="浏览" name="second"></el-tab-pane>
+          <el-tab-pane label=" 评价" name="second">
+            <div class="starMovie" v-for="item in scoreList" :key="item.id">
+              <div>
+                <router-link class="themeBlack" :to="'/detail/' + item.id">{{item.name}}</router-link>
+                <span class="score">{{item.score}}分</span>
+              </div>
+              <div>{{item.type}}</div>
+            </div>
+          </el-tab-pane>
         </el-tabs>
         <el-form class="editForm" label-position="left" label-width="80px" v-if="isEdit" :model="editForm">
           <h3>个人信息修改</h3>
@@ -80,7 +88,9 @@
           ]
         },
         starIdArr: [],
-        starList: []
+        scoreIdArr: [],
+        starList: [],
+        scoreList: []
       }
     },
     mounted() {
@@ -137,9 +147,16 @@
               this.userInfo = response.data.data
               this.editForm = response.data.data
               var stars = response.data.data.star // 用户收藏
+              var scores = response.data.data.score // 用户评价
               if (stars) {
                 this.starIdArr = stars.substring(0, stars.length - 1).split(':')
                 this.getMoviesList()
+              }
+              if (scores) {
+                this.scoreIdArr = scores
+                  .substring(0, scores.length - 1)
+                  .split(':')
+                this.getMoviesScoreList()
               }
             })
             .catch(response => {
@@ -225,6 +242,27 @@
             )
         })
         console.log(this.starList)
+      },
+      getMoviesScoreList() {
+        this.scoreIdArr.forEach(element => {
+          var data = {
+            id: element
+          }
+          this.$http
+            .get(
+              'http://localhost:8089/movie/getMovies',
+              { params: data },
+              { emulateJSON: true }
+            )
+            .then(
+              response => {
+                this.scoreList.push(response.data.data.records[0])
+              },
+              response => {
+                console.log('获取失败～')
+              }
+            )
+        })
       }
     }
   }

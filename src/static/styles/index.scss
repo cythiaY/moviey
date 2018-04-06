@@ -1,86 +1,87 @@
 .index_container {
-  .subTitle {
-    font-size: 28px;
-    float: left;
-    width: 20%;
-    margin-top: 250px;
-    text-align: center;
-    .more {
-      a {
-        color: #f0506e !important;
-        text-decoration: none;
-        font-size: 24px;
-        border: 2px solid #f0506ea6;
-        padding: 0 15px;
-        border-radius: 20px;
-      }
-    }
-  }
-  .el-row {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 0 20px;
-    height: 100%;
-    .el-card__body {
-      position: relative;
-      padding: 10px !important;
-      .item_name {
-        margin-top: 10px;
+    .subTitle {
+        font-size: 28px;
+        float: left;
+        width: 20%;
+        margin-top: 250px;
         text-align: center;
-      }
+        .more {
+            a {
+                color: #f0506e !important;
+                text-decoration: none;
+                font-size: 24px;
+                border: 2px solid #f0506ea6;
+                padding: 0 15px;
+                border-radius: 20px;
+            }
+        }
     }
-  }
-  .icon1 {
-    position: absolute;
-    width: 50px;
-    margin-left: 48%;
-    margin-top: -25px;
-    z-index: 997;
-  }
-  .newMoives,
-  .hotMoives {
-    height: 600px;
-    width: 100%;
-  }
-  .introduce {
-    font-size: 24px;
-    height: 400px;
-    color: #f0506e;
-    padding-top: 100px;
-    padding-bottom: 100px;
-    padding-left: 15%;
-    padding-right: 15%;
-    div {
-      width: 50%;
-      float: left;
-      text-align: center;
-      height: 200px;
-      line-height: 200px;
-      position: relative;
-      left: 0;
-      right: 0;
+    .el-row {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0 20px;
+        height: 100%;
+        .el-card__body {
+            position: relative;
+            padding: 10px !important;
+            .item_name {
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
     }
-    .left {
-      animation: leftDiv 2s;
+    .icon1 {
+        position: absolute;
+        width: 50px;
+        margin-left: 48%;
+        margin-top: -25px;
+        z-index: 997;
     }
-    @keyframes leftDiv {
-      from {
-        left: -150px;
-      }
-      to {
-        left: 0;
-      }
+    .newMoives,
+    .hotMoives,
+    .recommendMoives {
+        height: 600px;
+        width: 100%;
     }
-    .right {
-      animation: rightDiv 2s;
+    .introduce {
+        font-size: 24px;
+        height: 400px;
+        color: #f0506e;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        padding-left: 15%;
+        padding-right: 15%;
+        div {
+            width: 50%;
+            float: left;
+            text-align: center;
+            height: 200px;
+            line-height: 200px;
+            position: relative;
+            left: 0;
+            right: 0;
+        }
+        .left {
+            animation: leftDiv 2s;
+        }
+        @keyframes leftDiv {
+            from {
+                left: -150px;
+            }
+            to {
+                left: 0;
+            }
+        }
+        .right {
+            animation: rightDiv 2s;
+        }
+        @keyframes rightDiv {
+            from {
+                left: 150px;
+            }
+            to {
+                left: 0;
+            }
+        }
     }
-    @keyframes rightDiv {
-      from {
-        left: 150px;
-      }
-      to {
-        left: 0;
-      }
-    }
-  }
 }

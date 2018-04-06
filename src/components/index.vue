@@ -30,8 +30,29 @@
         </el-carousel-item>
       </el-carousel>
     </div>
+    <img class="icon1" :src="icon2" alt="">
+    <div id="recommendMoives" class="recommendMoives" :style="{backgroundImage: 'url(' + bg1 + ')'}">
+      <div style="width:80%;display:table;height:100%;float:left">
+        <el-row :gutter="40">
+          <el-col :span="6" v-for="item in hotestList" :key="item.id">
+            <el-card>
+              <router-link :to="'/detail/' + item.id">
+                <img :src="item.imgUrl" alt="">
+              </router-link>
+              <div class="item_name themeBlack">{{item.name}}</div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="subTitle">
+        <div>推 荐</div>
+        <div class="more">
+          <router-link to="/list">更 多</router-link>
+        </div>
+      </div>
+    </div>
     <img class="icon1" :src="icon1" alt="">
-    <div class="newMoives" :style="{backgroundImage: 'url(' + bg1 + ')'}">
+    <div id="newMoives" class="newMoives">
       <div class="subTitle">
         <div class="themeBlack">最 新</div>
         <div class="more">
@@ -52,7 +73,7 @@
       </div>
     </div>
     <img class="icon1" :src="icon2" alt="">
-    <div class="hotMoives">
+    <div id="hotMoives" class="hotMoives" :style="{backgroundImage: 'url(' + bg1 + ')'}">
       <div style="width:80%;display:table;height:100%;float:left">
         <el-row :gutter="40">
           <el-col :span="6" v-for="item in hotestList" :key="item.id">
@@ -66,9 +87,9 @@
         </el-row>
       </div>
       <div class="subTitle">
-        <div>最热</div>
+        <div>最 热</div>
         <div class="more">
-          <router-link to="#">更多</router-link>
+          <router-link to="/list">更 多</router-link>
         </div>
       </div>
     </div>

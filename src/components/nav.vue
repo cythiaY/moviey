@@ -8,9 +8,9 @@
         <li>
           <router-link :to="'/index'" class="themeRed">首页</router-link>
         </li>
-        <li v-if="isIndex">推荐</li>
-        <li v-if="isIndex">最新</li>
-        <li v-if="isIndex">最热</li>
+        <li v-if="isIndex"><a href="#recommendMoives" class="themeRed">推荐</a></li>
+        <li v-if="isIndex"><a href="#newMoives" class="themeRed">最新</a></li>
+        <li v-if="isIndex"><a href="#hotMoives" class="themeRed">最热</a></li>
         <li class="rightLi" v-if="isLogin">
           <el-dropdown>
             <span class="el-dropdown-link themeRed">

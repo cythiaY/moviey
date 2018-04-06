@@ -253,6 +253,7 @@
               response => {
                 this.$message.success('评论成功～')
                 this.commentDialogVisiable = false
+                this.addUserscore()
                 this.getComments()
               },
               response => {
@@ -260,6 +261,27 @@
               }
             )
         }
+      },
+      /**
+       *
+       * 添加用户点评记录
+       *
+       */
+      addUserscore() {
+        var data = {
+          userId: parseInt(getCookie('id')),
+          movieId: parseInt(this.id)
+        }
+        this.$http
+          .get('http://localhost:8089/user/scoreMovie', { params: data })
+          .then(
+            response => {
+              console.log('添加用户评论数组成功')
+            },
+            response => {
+              console.error('添加用户评论失败～')
+            }
+          )
       },
       /**
        *
