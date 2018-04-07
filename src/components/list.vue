@@ -10,7 +10,7 @@
         <ul>
           <li :class="{'isActiveLi':liTag === 1}" @click="changeOrder(1)">最新</li>
           <li :class="{'isActiveLi':liTag === 2}" @click="changeOrder(2)">最热</li>
-          <li :class="{'isActiveLi':liTag === 3}" @click="changeOrder(3)">推荐</li>
+          <li :class="{'isActiveLi':liTag === 3}" @click="getRecommendMovies">推荐</li>
         </ul>
         <div style="width:30%;margin-left:35%;height:2px;background-color:#f0506e;padding-left: 40px;"></div>
         <ul>
@@ -34,7 +34,7 @@
           <el-tab-pane label="历史" name="seventh"></el-tab-pane>
         </el-tabs>
         <div class="nodata" v-if="isDataNull">
-          <img :src="nodata" alt="">
+          <img src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/nodata.png" alt="">
           <div>抱歉哦～暂无相关资源</div>
         </div>
         <div class="listContent" v-else>
@@ -64,6 +64,7 @@
   </div>
 </template>
 <script>
+  import { getCookie } from '../../src/utils/util'
   import navCommon from './nav'
   export default {
     name: 'List',
@@ -78,8 +79,7 @@
         total: 0,
         showInput: false,
         keyword: '',
-        isDataNull: true,
-        nodata: require('../../src/static/images/nodata.png')
+        isDataNull: true
       }
     },
     mounted() {
@@ -104,7 +104,7 @@
       setNav() {
         this.$refs['navCom'].$emit('isIndex', false)
         if (this.$route.query.type) {
-          if (this.$route.query.type === '3') {
+          if (parseInt(this.$route.query.type) === 3) {
             this.getRecommendMovies()
           } else {
             this.changeOrder(this.$route.query.type)
@@ -206,6 +206,7 @@
        */
       getRecommendMovies() {
         if (getCookie('id')) {
+          this.liTag = 3
           this.$http
             .get(
               'http://localhost:8089/movie/recommend/Movies',
@@ -215,6 +216,7 @@
             .then(
               response => {
                 this.listData = response.data.data
+                this.total = response.data.data.length
               },
               response => {
                 console.log('获取失败～')

@@ -15,7 +15,11 @@
         <div class="remark">工作时间是IDC行业的程序猿，休息的时候就变成了笔耕不辍的作家，周末还能化身成变出一桌美味菜肴的营养师...</div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="收藏" name="first">
-            <div class="starMovie" v-for="item in starList" :key="item.id">
+            <div class="nodata" v-if="isStarNull">
+              <img src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/nodata.png" alt="">
+              <div>还没有呢 快去收藏吧</div>
+            </div>
+            <div v-else class="starMovie" v-for="item in starList" :key="item.id">
               <div>
                 <router-link class="themeBlack" :to="'/detail/' + item.id">{{item.name}}</router-link>
                 <span class="score">{{item.score}}分</span>
@@ -24,7 +28,11 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label=" 评价" name="second">
-            <div class="starMovie" v-for="item in scoreList" :key="item.id">
+            <div class="nodata" v-if="isScoreNull">
+              <img src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/nodata.png" alt="">
+              <div>还没有呢 快去评价吧</div>
+            </div>
+            <div v-else class="starMovie" v-for="item in scoreList" :key="item.id">
               <div>
                 <router-link class="themeBlack" :to="'/detail/' + item.id">{{item.name}}</router-link>
                 <span class="score">{{item.score}}分</span>
@@ -90,7 +98,9 @@
         starIdArr: [],
         scoreIdArr: [],
         starList: [],
-        scoreList: []
+        scoreList: [],
+        isStarNull: false,
+        isScoreNull: false
       }
     },
     mounted() {
@@ -149,14 +159,20 @@
               var stars = response.data.data.star // 用户收藏
               var scores = response.data.data.score // 用户评价
               if (stars) {
+                this.isStarNull = false
                 this.starIdArr = stars.substring(0, stars.length - 1).split(':')
                 this.getMoviesList()
+              } else {
+                this.isStarNull = true
               }
               if (scores) {
+                this.isScoreNull = false
                 this.scoreIdArr = scores
                   .substring(0, scores.length - 1)
                   .split(':')
                 this.getMoviesScoreList()
+              } else {
+                this.isScoreNull = true
               }
             })
             .catch(response => {

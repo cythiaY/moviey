@@ -38,7 +38,7 @@
             <el-col :span="6" v-for="item in recommendList" :key="item.id">
               <el-card>
                 <router-link :to="'/detail/' + item.id">
-                  <img :src="item.imgUrl" alt="">
+                  <img class="imgDiv" :src="item.imgUrl" alt="">
                 </router-link>
                 <div class="item_name themeBlack">{{item.name}}</div>
               </el-card>
@@ -67,12 +67,12 @@
           <router-link :to="{path:'/list',query: {type: 1}}">更 多</router-link>
         </div>
       </div>
-      <div style="display:table;height:100%">
+      <div style="width:80%;display:table;height:100%">
         <el-row :gutter="40">
           <el-col :span="6" v-for="item in lastestList" :key="item.id">
             <el-card>
               <router-link :to="'/detail/' + item.id">
-                <img :src="item.imgUrl" alt="">
+                <img class="imgDiv" :src="item.imgUrl" alt="">
               </router-link>
               <div class="item_name themeBlack">{{item.name}}</div>
             </el-card>
@@ -87,7 +87,7 @@
           <el-col :span="6" v-for="item in hotestList" :key="item.id">
             <el-card>
               <router-link :to="'/detail/' + item.id">
-                <img :src="item.imgUrl" alt="">
+                <img class="imgDiv" :src="item.imgUrl" alt="">
               </router-link>
               <div class="item_name themeBlack">{{item.name}}</div>
             </el-card>
