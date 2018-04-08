@@ -83,13 +83,16 @@
         commentList: {},
         commentDialogVisiable: false,
         commentForm: {},
-        isStar: false
+        isStar: false,
+        typeParam: {}, // 更新用户行为记录参数
+        intervalFuc: {}
       }
     },
     mounted() {
       this.getDetail()
       this.getComments()
       this.setNav()
+      this.updateBehavior()
     },
     components: {
       navComponent: navCommon
@@ -305,7 +308,68 @@
               this.isStar = !this.isStar
             }
           )
+      },
+      /**
+       * 更新用户行为记录
+       */
+      updateBehavior() {
+        this.$http
+          .get(
+            'http://localhost:8089/movie/recommend/Movies',
+            { params: { user_id: getCookie('id') } },
+            { emulateJSON: true }
+          )
+          .then(response => {
+            if (response.data.data.length === 0) {
+              this.whichType(this.movieInfo.type)
+            }
+          })
+      },
+      /**
+       * 判断电影类型
+       */
+      whichType(str) {
+        if (str.indexOf('爱情') > -1) {
+          this.typeParam.romanceTypeNum = true
+        }
+        if (str.indexOf('动作') > -1) {
+          this.typeParam.actionTypeNum = true
+        }
+        if (str.indexOf('喜剧') > -1) {
+          this.typeParam.comedyTypeNum = true
+        }
+        if (str.indexOf('奇幻') > -1 || str.indexOf('科幻') > -1) {
+          this.typeParam.scifiTypeNum = true
+        }
+        if (str.indexOf('犯罪') > -1) {
+          this.typeParam.crimeTypeNum = true
+        }
+        if (str.indexOf('战争') > -1) {
+          this.typeParam.warTypeNum = true
+        }
+        if (str.indexOf('动画') > -1 || str.indexOf('儿童') > -1) {
+          this.typeParam.animationTypeNum = true
+        }
+        if (str.indexOf('悬疑') > -1 || str.indexOf('惊悚') > -1) {
+          this.typeParam.thrillerTypeNum = true
+        }
+        this.typeParam.userId = parseInt(getCookie('id'))
+        var that = this
+        // this.intervalFuc = setInterval(function() {
+        //   that.$http
+        //     .get(
+        //       'http://localhost:8089/behavior/update',
+        //       { params: that.typeParam },
+        //       { emulateJSON: true }
+        //     )
+        //     .then(response => {})
+        //   // console.log('aaa')
+        // }, 10000)
       }
+    },
+    destroyed: function() {
+      clearInterval(this.intervalFuc)
+      console.log('bbb')
     }
   }
 </script>
