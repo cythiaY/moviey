@@ -5,33 +5,37 @@
     <div>
       <el-carousel :interval="3000" height="550px" style="margin-bottom: 40px;" :autoplay="true">
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" :src="slide1" alt="">
-          <div class="uk-position-center uk-panel">
-            <h1>1</h1>
+          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2516767765.webp" alt="">
+          <div class="uk-position-center uk-panel imgText">
+            <h1>玛丽与魔女之花</h1>
+            <h4>4月28日上映</h4>
           </div>
         </el-carousel-item>
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" :src="slide2" alt="">
-          <div class="uk-position-center uk-panel">
-            <h1>2</h1>
+          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2516855213.webp" alt="">
+          <div class="uk-position-center uk-panel imgText">
+            <h1>湮灭</h1>
+            <h4>4月13日上映</h4>
           </div>
         </el-carousel-item>
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" :src="slide3" alt="">
-          <div class="uk-position-center uk-panel">
-            <h1>3</h1>
+          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2515686232.webp" alt="">
+          <div class="uk-position-center uk-panel imgText">
+            <h1>起跑线</h1>
+            <h4>4月4日上映</h4>
           </div>
         </el-carousel-item>
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" :src="slide4" alt="">
-          <div class="uk-position-center uk-panel">
-            <h1>4</h1>
+          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2517012290.webp" alt="">
+          <div class="uk-position-center uk-panel imgText">
+            <h1>后来的我们</h1>
+            <h4>4月28日上映</h4>
           </div>
         </el-carousel-item>
       </el-carousel>
     </div>
-    <img class="icon1" :src="icon2" alt="">
-    <div id="recommendMoives" class="recommendMoives" :style="{backgroundImage: 'url(' + bg1 + ')'}">
+    <img class="icon1" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/camera.png" alt="">
+    <div id="recommendMoives" class="recommendMoives" :style="{backgroundImage: 'url(https://moviey.oss-cn-hangzhou.aliyuncs.com/images/index_bg2.png)'}">
       <div v-if="isRecommend" style="height:100%">
         <div style="width:80%;display:table;height:100%;float:left">
           <el-row :gutter="40">
@@ -54,12 +58,12 @@
       </div>
       <div v-else class="unlogin">
         <div class="content">
-          <h4 class="themeBlack">请先登录查看</h4>
+          <h4 class="themeBlack">请先登录查看推荐</h4>
           <router-link :to="'/login'" class="themeRed">登录</router-link>
         </div>
       </div>
     </div>
-    <img class="icon2" :src="icon1" alt="">
+    <img class="icon2" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/roll.png" alt="">
     <div id="newMoives" class="newMoives">
       <div class="subTitle">
         <div class="themeBlack">最 新</div>
@@ -80,8 +84,8 @@
         </el-row>
       </div>
     </div>
-    <img class="icon1" :src="icon2" alt="">
-    <div id="hotMoives" class="hotMoives" :style="{backgroundImage: 'url(' + bg1 + ')'}">
+    <img class="icon1" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/camera.png" alt="">
+    <div id="hotMoives" class="hotMoives" :style="{backgroundImage: 'url(https://moviey.oss-cn-hangzhou.aliyuncs.com/images/index_bg.png)'}">
       <div style="width:80%;display:table;height:100%;float:left">
         <el-row :gutter="40">
           <el-col :span="6" v-for="item in hotestList" :key="item.id">
@@ -101,8 +105,8 @@
         </div>
       </div>
     </div>
-    <img class="icon2" :src="icon1" alt="">
-    <div class="introduce" :style="{backgroundImage: 'url(' + bg2 + ')'}">
+    <img class="icon2" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/camera.png" alt="">
+    <div class="introduce" :style="{backgroundImage: 'url(https://moviey.oss-cn-hangzhou.aliyuncs.com/images/index_bg2.png)'}">
       <div :class="{'left':isLeft}">个性化推荐</div>
       <div :class="{'right':isRight}">最新电影推荐</div>
       <div :class="{'left':isLeft}">高分电影精选</div>
@@ -118,14 +122,6 @@
     name: 'index',
     data() {
       return {
-        slide1: require('../../src/static/images/slide01.jpg'),
-        slide2: require('../../src/static/images/slide02.jpg'),
-        slide3: require('../../src/static/images/slide03.jpg'),
-        slide4: require('../../src/static/images/slide04.jpg'),
-        icon1: require('../../src/static/images/roll.png'),
-        icon2: require('../../src/static/images/camera.png'),
-        bg1: require('../../src/static/images/index_bg.png'),
-        bg2: require('../../src/static/images/index_bg2.png'),
         lastestList: {},
         hotestList: {},
         recommendList: {},
@@ -239,10 +235,7 @@
                           var total = 0
                           var i = 0
                           while (total < 1) {
-                            var item = response.data.records.slice(
-                              i,
-                              i + 1
-                            )[0]
+                            var item = response.data.records.slice(i, i + 1)[0]
                             if (this.$data.recommendIds.indexOf(item.id) === -1) {
                               this.$data.recommendIds += item.id
                               resultArr.push(item)

@@ -4,7 +4,7 @@
     <div class="profile_container">
       <div class="left_content">
         <el-card class="box-card">
-          <img :src="headImg" alt="">
+          <img src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/headImg.JPG" alt="">
           <div>
             <span class="name">{{userInfo.nickname | filterNull}}</span>
             <span class="editBtn themeRed" @click="changeForm">{{formName}}</span>
@@ -86,7 +86,6 @@
         isEdit: true,
         formName: '修改密码',
         activeName: 'first',
-        headImg: require('../../src/static/images/headImg.jpg'),
         rules: {
           passwordBefore: [
             { required: true, message: '请输入旧密码', trigger: 'blur' }

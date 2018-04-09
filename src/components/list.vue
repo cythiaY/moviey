@@ -1,5 +1,5 @@
 <template>
-  <div class="list_container">
+  <div id="top" class="list_container">
     <navComponent ref="navCom"></navComponent>
     <div class="searchMovie">
       <el-input :class="[!showInput?'displayNone':'displayBlock']" placeholder="输入关键词查找" v-model="keyword" @keyup.enter.native="searchMovie"></el-input>
@@ -57,10 +57,11 @@
             </el-col>
           </el-row>
         </div>
-        <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        <el-pagination v-if="total > 0" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </el-col>
     </el-row>
+    <a href="#top"><img class="topBtn" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/top.png" alt=""></a>
   </div>
 </template>
 <script>
@@ -272,10 +273,7 @@
                           var total = 0
                           var i = 0
                           while (total < 2) {
-                            var item = response.data.records.slice(
-                              i,
-                              i + 1
-                            )[0]
+                            var item = response.data.records.slice(i, i + 1)[0]
                             if (this.$data.recommendIds.indexOf(item.id) === -1) {
                               this.$data.recommendIds += item.id
                               resultArr.push(item)

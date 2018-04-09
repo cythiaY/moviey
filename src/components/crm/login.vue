@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="bgColor"></div>
-    <img class="logo" :src="logo" alt="">
+    <img class="logo" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/logoW.png" alt="">
     <h3 class="crmTitle">Y Movie 后台管理系统</h3>
     <div class="forms">
       <el-form class="loginForm" :rules="rules" :model="loginForm">
@@ -30,7 +30,6 @@
         loginForm: {},
         isloginName: false,
         isloginPassword: false,
-        logo: require('../../../src/static/images/logoW.png'),
         rules: {
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
