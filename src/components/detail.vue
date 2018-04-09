@@ -160,43 +160,31 @@
         var data = {
           id: this.id
         }
-        this.$http
-          .get(
-            'http://localhost:8089/movie/getMovies',
-            { params: data },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.movieInfo = response.data.data.records[0]
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/movie/getMovies', data).then(
+          response => {
+            this.movieInfo = response.data.records[0]
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
         // 获取用户收藏记录
         var userData = {
           userId: parseInt(getCookie('id'))
         }
-        this.$http
-          .get(
-            'http://localhost:8089/user/getUserInfo',
-            { params: userData },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              let str = response.data.data.star
-              if (str) {
-                this.isStar = str.indexOf(this.$route.params.id + ':') > -1
-              } else {
-                this.isStar = false
-              }
-            },
-            response => {
-              console.log('获取失败～')
+        this.$get('/user/getUserInfo', userData).then(
+          response => {
+            let str = response.data.star
+            if (str) {
+              this.isStar = str.indexOf(this.$route.params.id + ':') > -1
+            } else {
+              this.isStar = false
             }
-          )
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -207,20 +195,14 @@
         var data = {
           movieId: this.id
         }
-        this.$http
-          .get(
-            'http://localhost:8089/comment/getComment',
-            { params: data },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.commentList = response.data.data.records
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/comment/getComment', data).then(
+          response => {
+            this.commentList = response.data.records
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -250,19 +232,17 @@
             content: this.commentForm.content,
             score: this.commentForm.score
           }
-          this.$http
-            .get('http://localhost:8089/comment/addComment', { params: data })
-            .then(
-              response => {
-                this.$message.success('评论成功～')
-                this.commentDialogVisiable = false
-                this.addUserscore()
-                this.getComments()
-              },
-              response => {
-                this.$message.error('评论失败～')
-              }
-            )
+          this.$get('/comment/addComment', data).then(
+            response => {
+              this.$message.success('评论成功～')
+              this.commentDialogVisiable = false
+              this.addUserscore()
+              this.getComments()
+            },
+            response => {
+              this.$message.error('评论失败～')
+            }
+          )
         }
       },
       /**
@@ -275,16 +255,14 @@
           userId: parseInt(getCookie('id')),
           movieId: parseInt(this.id)
         }
-        this.$http
-          .get('http://localhost:8089/user/scoreMovie', { params: data })
-          .then(
-            response => {
-              console.log('添加用户评论数组成功')
-            },
-            response => {
-              console.error('添加用户评论失败～')
-            }
-          )
+        this.$get('/user/scoreMovie', data).then(
+          response => {
+            console.log('添加用户评论数组成功')
+          },
+          response => {
+            console.error('添加用户评论失败～')
+          }
+        )
       },
       /**
        *
@@ -297,33 +275,27 @@
           movieId: parseInt(this.id),
           tag: this.isStar
         }
-        this.$http
-          .get('http://localhost:8089/user/starMovie', { params: data })
-          .then(
-            response => {
-              this.$message.success('操作成功～')
-            },
-            response => {
-              this.$message.error('操作失败～')
-              this.isStar = !this.isStar
-            }
-          )
+        this.$get('/user/starMovie', data).then(
+          response => {
+            this.$message.success('操作成功～')
+          },
+          response => {
+            this.$message.error('操作失败～')
+            this.isStar = !this.isStar
+          }
+        )
       },
       /**
        * 更新用户行为记录
        */
       updateBehavior() {
-        this.$http
-          .get(
-            'http://localhost:8089/movie/recommend/Movies',
-            { params: { user_id: getCookie('id') } },
-            { emulateJSON: true }
-          )
-          .then(response => {
-            if (response.data.data.length === 0) {
+        this.$get('/movie/recommend/Movies', { user_id: getCookie('id') }).then(
+          response => {
+            if (response.data.length === 0) {
               this.whichType(this.movieInfo.type)
             }
-          })
+          }
+        )
       },
       /**
        * 判断电影类型
@@ -356,14 +328,8 @@
         this.typeParam.userId = parseInt(getCookie('id'))
         var that = this
         // this.intervalFuc = setInterval(function() {
-        //   that.$http
-        //     .get(
-        //       'http://localhost:8089/behavior/update',
-        //       { params: that.typeParam },
-        //       { emulateJSON: true }
-        //     )
-        //     .then(response => {})
-        //   // console.log('aaa')
+        //   that.$get('/behavior/update', that.typeParam).then(response => {})
+        //   console.log('aaa')
         // }, 10000)
       }
     },

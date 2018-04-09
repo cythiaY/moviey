@@ -22,7 +22,6 @@
 
 <script>
   import md5 from 'js-md5'
-  import { userLogin } from '../../../src/utils/user'
   import { getCookie, setCookie } from '../../../src/utils/util'
   export default {
     name: 'login',
@@ -84,11 +83,10 @@
             userName: this.loginForm.username,
             userPassword: md5(this.loginForm.password)
           }
-          this.axios
-            .get('http://localhost:8089/user/login', { params: data })
+          this.$get('/user/login', data)
             .then(response => {
-              setCookie('id', response.data.data, 1000 * 60 * 60)
-              if (response.data.data && response.data.data !== 0) {
+              setCookie('id', response.data, 1000 * 60 * 60)
+              if (response.data && response.data !== 0) {
                 this.$router.push({ path: '/crmindex' })
               } else {
                 this.$message.error('用户名密码错误，请重新输入')

@@ -8,9 +8,15 @@
         <li>
           <router-link :to="'/index'" class="themeRed">首页</router-link>
         </li>
-        <li v-if="isIndex"><a href="#recommendMoives" class="themeRed">推荐</a></li>
-        <li v-if="isIndex"><a href="#newMoives" class="themeRed">最新</a></li>
-        <li v-if="isIndex"><a href="#hotMoives" class="themeRed">最热</a></li>
+        <li v-if="isIndex">
+          <a href="#recommendMoives" class="themeRed">推荐</a>
+        </li>
+        <li v-if="isIndex">
+          <a href="#newMoives" class="themeRed">最新</a>
+        </li>
+        <li v-if="isIndex">
+          <a href="#hotMoives" class="themeRed">最热</a>
+        </li>
         <li class="rightLi" v-if="isLogin">
           <el-dropdown>
             <span class="el-dropdown-link themeRed">
@@ -105,12 +111,11 @@
           var data = {
             userId: parseInt(getCookie('id'))
           }
-          this.axios
-            .get('http://localhost:8089/user/getUserInfo', { params: data })
+          this.$get('/user/getUserInfo', data)
             .then(response => {
-              this.userName = response.data.data.nickname
-                ? response.data.data.nickname
-                : response.data.data.name
+              this.userName = response.data.nickname
+                ? response.data.nickname
+                : response.data.name
             })
             .catch(response => {
               console.log('login error')

@@ -302,12 +302,11 @@
           var data = {
             userId: parseInt(getCookie('id'))
           }
-          this.axios
-            .get('http://localhost:8089/user/getUserInfo', { params: data })
+          this.$get('/user/getUserInfo', data)
             .then(response => {
-              this.userName = response.data.data.nickname
-                ? response.data.data.nickname
-                : response.data.data.name
+              this.userName = response.data.nickname
+                ? response.data.nickname
+                : response.data.name
             })
             .catch(response => {
               console.log('login error')
@@ -349,21 +348,15 @@
        *
        */
       getMovies() {
-        this.$http
-          .get(
-            'http://localhost:8089/movie/getMovies',
-            { params: this.getMovieParams },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.total1 = response.data.data.total
-              this.movieData = response.data.data.records
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/movie/getMovies', this.getMovieParams).then(
+          response => {
+            this.total1 = response.data.total
+            this.movieData = response.data.records
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -371,21 +364,15 @@
        *
        */
       getComments() {
-        this.$http
-          .get(
-            'http://localhost:8089/comment/getComment',
-            { params: this.getCommentParams },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.total2 = response.data.data.total
-              this.commentData = response.data.data.records
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/comment/getComment', this.getCommentParams).then(
+          response => {
+            this.total2 = response.data.total
+            this.commentData = response.data.records
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -393,21 +380,15 @@
        *
        */
       getUsers() {
-        this.$http
-          .get(
-            'http://localhost:8089/user/getUsers',
-            { params: this.getUserParams },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.total3 = response.data.data.total
-              this.userData = response.data.data.records
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/user/getUsers', this.getUserParams).then(
+          response => {
+            this.total3 = response.data.total
+            this.userData = response.data.records
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -425,8 +406,7 @@
             var data = {
               id: parseInt(movieId)
             }
-            this.axios
-              .get('http://localhost:8089/movie/delete/Movies', { params: data })
+            this.$get('/movie/delete/Movies', data)
               .then(function(response) {
                 that.getMovies()
                 that.$message.success('删除电影成功!')
@@ -458,10 +438,7 @@
             var data = {
               comment_id: parseInt(commentId)
             }
-            this.axios
-              .get('http://localhost:8089/comment/deleteComment', {
-                params: data
-              })
+            this.$get('/comment/deleteComment', data)
               .then(function(response) {
                 that.getComments()
                 that.$message.success('删除评论成功!')
@@ -493,8 +470,7 @@
             var data = {
               id: parseInt(userId)
             }
-            this.axios
-              .get('http://localhost:8089/user/delete/user', { params: data })
+            this.$get('/user/delete/user', data)
               .then(function(response) {
                 that.getUsers()
                 that.$message.success('删除用户成功!')
@@ -560,8 +536,7 @@
           this.$message.error('请先填写电影名称')
         }
         if (tag) {
-          this.axios
-            .post('http://localhost:8089/movie/add/Movies', this.addMovieForm)
+          this.$post('/movie/add/Movies', this.addMovieForm)
             .then(function(response) {
               this.movieFormVisible = false
               this.addMovieForm = {}
@@ -579,24 +554,14 @@
        */
       movieEdit(id) {
         this.movieEditVisible = true
-        this.$http
-          .get(
-            'http://localhost:8089/movie/getMovies',
-            {
-              params: {
-                id: id
-              }
-            },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.editMovieForm = response.data.data.records[0]
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/movie/getMovies', { id: id }).then(
+          response => {
+            this.editMovieForm = response.data.records[0]
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -619,8 +584,7 @@
         }
         var that = this
         if (tag) {
-          this.axios
-            .post('http://localhost:8089/movie/update/Movies', this.editMovieForm)
+          this.$post('/movie/update/Movies', this.editMovieForm)
             .then(function(response) {
               that.$message.success('编辑电影成功！')
               that.movieEditVisible = false
@@ -643,10 +607,9 @@
         var data = {
           userId: parseInt(id)
         }
-        this.axios
-          .get('http://localhost:8089/user/getUserInfo', { params: data })
+        this.$get('/user/getUserInfo', data)
           .then(response => {
-            this.editUserForm = response.data.data
+            this.editUserForm = response.data
           })
           .catch(response => {
             console.log('login error')
@@ -671,8 +634,7 @@
             type: this.editUserForm.type,
             userPhone: this.editUserForm.phone
           }
-          this.axios
-            .get('http://localhost:8089/user/update', { params: data })
+          this.$get('/user/update', data)
             .then(function(response) {
               that.$message.success('编辑用户成功！')
               that.userEditVisible = false
@@ -712,8 +674,7 @@
             userType: this.addUserForm.type,
             userPhone: this.addUserForm.phone
           }
-          this.axios
-            .get('http://localhost:8089/user/add', { params: data })
+          this.$get('/user/add', data)
             .then(function(response) {
               that.$message.success('添加用户成功！')
               that.userFormVisible = false

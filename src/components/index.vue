@@ -172,121 +172,99 @@
       getRecommendMovies() {
         if (getCookie('id')) {
           this.isRecommend = true
-          this.$http
-            .get(
-              'http://localhost:8089/movie/recommend/Movies',
-              { params: { user_id: getCookie('id') } },
-              { emulateJSON: true }
-            )
-            .then(
-              response => {
-                if (response.data.data.length > 0) {
-                  this.recommendList = response.data.data.slice(0, 4)
-                } else {
-                  this.$http
-                    .get(
-                      'http://localhost:8089/behavior/getBehavior',
-                      { params: { userId: getCookie('id') } },
-                      { emulateJSON: true }
-                    )
-                    .then(response => {
-                      // 全新用户
-                      if (response.data.data.isNew === 1) {
-                        this.$http
-                          .get(
-                            'http://localhost:8089/movie/recommend/initMovies',
-                            { emulateJSON: true }
-                          )
-                          .then(response => {
-                            this.recommendList = response.data.data.slice(0, 4)
-                          })
-                      } else {
-                        var jsonArr = response.data.data
-                        for (var key in jsonArr) {
-                          if (key.indexOf('Type') === -1) {
-                            delete jsonArr[key]
-                          }
-                        }
-                        var maxStr = ''
-                        for (var i = 0; i < 4; i++) {
-                          var max = 0
-                          var maxKey = ''
-                          for (const key in jsonArr) {
-                            if (jsonArr[key] > max) {
-                              max = jsonArr[key]
-                              maxKey = key
-                            }
-                          }
-                          delete jsonArr[maxKey]
-                          maxStr += maxKey
-                        }
-                        if (maxStr.indexOf('romance') > -1) {
-                          this.$data.keyType.push('爱情')
-                        }
-                        if (maxStr.indexOf('action') > -1) {
-                          this.$data.keyType.push('动作')
-                        }
-                        if (maxStr.indexOf('comedy') > -1) {
-                          this.$data.keyType.push('喜剧')
-                        }
-                        if (maxStr.indexOf('scifi') > -1) {
-                          this.$data.keyType.push('奇幻')
-                        }
-                        if (maxStr.indexOf('crime') > -1) {
-                          this.$data.keyType.push('犯罪')
-                        }
-                        if (maxStr.indexOf('war') > -1) {
-                          this.$data.keyType.push('战争')
-                        }
-                        if (maxStr.indexOf('animation') > -1) {
-                          this.$data.keyType.push('动画')
-                        }
-                        if (maxStr.indexOf('thriller') > -1) {
-                          this.$data.keyType.push('悬疑')
-                        }
-                        var resultArr = []
-                        this.$data.keyType.forEach(element => {
-                          this.$http
-                            .get(
-                              'http://localhost:8089/movie/getMovies',
-                              { params: { movieType: element, orderType: 2 } },
-                              { emulateJSON: true }
-                            )
-                            .then(
-                              response => {
-                                // resultArr.push(response.data.data.records.slice(0, 1)[0])
-                                var total = 0
-                                var i = 0
-                                while (total < 1) {
-                                  var item = response.data.data.records.slice(
-                                    i,
-                                    i + 1
-                                  )[0]
-                                  if (
-                                    this.$data.recommendIds.indexOf(item.id) ===
-                                    -1
-                                  ) {
-                                    this.$data.recommendIds += item.id
-                                    resultArr.push(item)
-                                    total++
-                                  }
-                                  i++
-                                }
-                              },
-                              response => {
-                                console.log('获取失败～')
-                              }
-                            )
-                        })
-                        this.$data.recommendList = resultArr
-                      }
+          this.$get('/movie/recommend/Movies', { user_id: getCookie('id') }).then(
+            response => {
+              if (response.data.length > 0) {
+                this.recommendList = response.data.slice(0, 4)
+              } else {
+                this.$get('/behavior/getBehavior', {
+                  userId: getCookie('id')
+                }).then(response => {
+                  // 全新用户
+                  if (response.data.isNew === 1) {
+                    this.$get('/movie/recommend/initMovies').then(response => {
+                      this.recommendList = response.data.slice(0, 4)
                     })
-                }
-              },
-              response => {
-                console.log('获取失败～')
+                  } else {
+                    var jsonArr = response.data
+                    for (var key in jsonArr) {
+                      if (key.indexOf('Type') === -1) {
+                        delete jsonArr[key]
+                      }
+                    }
+                    var maxStr = ''
+                    for (var i = 0; i < 4; i++) {
+                      var max = 0
+                      var maxKey = ''
+                      for (const key in jsonArr) {
+                        if (jsonArr[key] > max) {
+                          max = jsonArr[key]
+                          maxKey = key
+                        }
+                      }
+                      delete jsonArr[maxKey]
+                      maxStr += maxKey
+                    }
+                    if (maxStr.indexOf('romance') > -1) {
+                      this.$data.keyType.push('爱情')
+                    }
+                    if (maxStr.indexOf('action') > -1) {
+                      this.$data.keyType.push('动作')
+                    }
+                    if (maxStr.indexOf('comedy') > -1) {
+                      this.$data.keyType.push('喜剧')
+                    }
+                    if (maxStr.indexOf('scifi') > -1) {
+                      this.$data.keyType.push('奇幻')
+                    }
+                    if (maxStr.indexOf('crime') > -1) {
+                      this.$data.keyType.push('犯罪')
+                    }
+                    if (maxStr.indexOf('war') > -1) {
+                      this.$data.keyType.push('战争')
+                    }
+                    if (maxStr.indexOf('animation') > -1) {
+                      this.$data.keyType.push('动画')
+                    }
+                    if (maxStr.indexOf('thriller') > -1) {
+                      this.$data.keyType.push('悬疑')
+                    }
+                    var resultArr = []
+                    this.$data.keyType.forEach(element => {
+                      this.$get('/movie/getMovies', {
+                        movieType: element,
+                        orderType: 2
+                      }).then(
+                        response => {
+                          var total = 0
+                          var i = 0
+                          while (total < 1) {
+                            var item = response.data.records.slice(
+                              i,
+                              i + 1
+                            )[0]
+                            if (this.$data.recommendIds.indexOf(item.id) === -1) {
+                              this.$data.recommendIds += item.id
+                              resultArr.push(item)
+                              total++
+                            }
+                            i++
+                          }
+                        },
+                        response => {
+                          console.log('获取失败～')
+                        }
+                      )
+                    })
+                    this.$data.recommendList = resultArr
+                  }
+                })
               }
-            )
+            },
+            response => {
+              console.log('获取失败～')
+            }
+          )
         } else {
           this.isRecommend = false
         }
@@ -300,20 +278,14 @@
        *
        */
       getLastMovies() {
-        this.$http
-          .get(
-            'http://localhost:8089/movie/getMovies',
-            { params: { orderType: 1 } },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.lastestList = response.data.data.records.slice(0, 4)
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/movie/getMovies', { orderType: 1 }).then(
+          response => {
+            this.lastestList = response.data.records.slice(0, 4)
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       },
       /**
        *
@@ -321,20 +293,14 @@
        *
        */
       getHostMovies() {
-        this.$http
-          .get(
-            'http://localhost:8089/movie/getMovies',
-            { params: { orderType: 2 } },
-            { emulateJSON: true }
-          )
-          .then(
-            response => {
-              this.hotestList = response.data.data.records.slice(0, 4)
-            },
-            response => {
-              console.log('获取失败～')
-            }
-          )
+        this.$get('/movie/getMovies', { orderType: 2 }).then(
+          response => {
+            this.hotestList = response.data.records.slice(0, 4)
+          },
+          response => {
+            console.log('获取失败～')
+          }
+        )
       }
     }
   }

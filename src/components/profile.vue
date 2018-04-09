@@ -151,13 +151,12 @@
           var data = {
             userId: parseInt(getCookie('id'))
           }
-          this.axios
-            .get('http://localhost:8089/user/getUserInfo', { params: data })
+          this.$get('/user/getUserInfo', data)
             .then(response => {
-              this.userInfo = response.data.data
-              this.editForm = response.data.data
-              var stars = response.data.data.star // 用户收藏
-              var scores = response.data.data.score // 用户评价
+              this.userInfo = response.data
+              this.editForm = response.data
+              var stars = response.data.star // 用户收藏
+              var scores = response.data.score // 用户评价
               if (stars) {
                 this.isStarNull = false
                 this.starIdArr = stars.substring(0, stars.length - 1).split(':')
@@ -191,8 +190,7 @@
           userNickname: this.editForm.nickname,
           userPhone: this.editForm.phone
         }
-        this.axios
-          .get('http://localhost:8089/user/update', { params: data })
+        this.$get('/user/update', data)
           .then(response => {
             this.$message.success('提交成功～')
           })
@@ -214,10 +212,9 @@
               passwordBefore: md5(this.passwordForm.passwordBefore),
               passwordAfter: md5(this.passwordForm.passwordAfter)
             }
-            this.axios
-              .get('http://localhost:8089/user/resetPsd', { params: data })
+            this.$get('/user/resetPsd', data)
               .then(response => {
-                if (response.data.data) {
+                if (response.data) {
                   this.$message.success('更改密码成功～')
                 } else {
                   this.$message.error('旧密码输入错误！')
@@ -242,20 +239,14 @@
           var data = {
             id: element
           }
-          this.$http
-            .get(
-              'http://localhost:8089/movie/getMovies',
-              { params: data },
-              { emulateJSON: true }
-            )
-            .then(
-              response => {
-                this.starList.push(response.data.data.records[0])
-              },
-              response => {
-                console.log('获取失败～')
-              }
-            )
+          this.$get('/movie/getMovies', data).then(
+            response => {
+              this.starList.push(response.data.records[0])
+            },
+            response => {
+              console.log('获取失败～')
+            }
+          )
         })
         console.log(this.starList)
       },
@@ -264,20 +255,14 @@
           var data = {
             id: element
           }
-          this.$http
-            .get(
-              'http://localhost:8089/movie/getMovies',
-              { params: data },
-              { emulateJSON: true }
-            )
-            .then(
-              response => {
-                this.scoreList.push(response.data.data.records[0])
-              },
-              response => {
-                console.log('获取失败～')
-              }
-            )
+          this.$get('/movie/getMovies', data).then(
+            response => {
+              this.scoreList.push(response.data.records[0])
+            },
+            response => {
+              console.log('获取失败～')
+            }
+          )
         })
       }
     }
