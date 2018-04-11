@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img class="bg" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/image02.jpg" alt="">
+    <img class="bg" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/bg01.jpg" alt="">
     <img class="logo" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/logoW.png" alt="">
     <div class="forms">
       <el-form class="loginForm" v-if="!isRegisterForm" :rules="rules" :model="loginForm">

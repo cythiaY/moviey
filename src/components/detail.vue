@@ -298,7 +298,10 @@
         )
       },
       /**
+       * 
        * 判断电影类型
+       * 并循环记录用户行为
+       * 
        */
       whichType(str) {
         if (str.indexOf('爱情') > -1) {
@@ -327,15 +330,15 @@
         }
         this.typeParam.userId = parseInt(getCookie('id'))
         var that = this
-        // this.intervalFuc = setInterval(function() {
-        //   that.$get('/behavior/update', that.typeParam).then(response => {})
-        //   console.log('aaa')
-        // }, 10000)
+        // 10s循环，记录用户浏览记录
+        this.intervalFuc = setInterval(function() {
+          that.$get('/behavior/update', that.typeParam).then(response => {})
+        }, 10000)
       }
     },
+    // 跳出当前页面后清除循环
     destroyed: function() {
       clearInterval(this.intervalFuc)
-      console.log('bbb')
     }
   }
 </script>

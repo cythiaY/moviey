@@ -5,28 +5,28 @@
     <div>
       <el-carousel :interval="3000" height="550px" style="margin-bottom: 40px;" :autoplay="true">
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2516767765.webp" alt="">
+          <img style="width:80%;margin-left:10%" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/mali.jpg" alt="">
           <div class="uk-position-center uk-panel imgText">
             <h1>玛丽与魔女之花</h1>
             <h4>4月28日上映</h4>
           </div>
         </el-carousel-item>
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2516855213.webp" alt="">
+          <img style="width:80%;margin-left:10%" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/yanmie.jpg" alt="">
           <div class="uk-position-center uk-panel imgText">
             <h1>湮灭</h1>
             <h4>4月13日上映</h4>
           </div>
         </el-carousel-item>
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2515686232.webp" alt="">
+          <img style="width:80%;margin-left:10%" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/qipaoxian.jpg" alt="">
           <div class="uk-position-center uk-panel imgText">
             <h1>起跑线</h1>
             <h4>4月4日上映</h4>
           </div>
         </el-carousel-item>
         <el-carousel-item>
-          <img style="width:80%;margin-left:10%" src="https://img3.doubanio.com/view/photo/l/public/p2517012290.webp" alt="">
+          <img style="width:80%;margin-left:10%" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/houlai.jpg" alt="">
           <div class="uk-position-center uk-panel imgText">
             <h1>后来的我们</h1>
             <h4>4月28日上映</h4>
