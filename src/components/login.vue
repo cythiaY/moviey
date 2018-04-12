@@ -20,7 +20,7 @@
           <el-input v-model="registerForm.username" placeholder="注册用户名" @blur="checkUserName"></el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="registerForm.password" type="password" placeholder="注册密码" @blur="checkUserPassord"></el-input>
+          <el-input v-model="registerForm.password" type="password" placeholder="注册密码" @blur="checkUserPassord" @keyup.enter.native="register"></el-input>
         </el-form-item>
         <el-form-item>
           <button class="leftBtn" @click="register">注册</button>

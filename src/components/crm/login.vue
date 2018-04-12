@@ -9,7 +9,7 @@
           <el-input v-model="loginForm.username" placeholder="登录用户名" @blur="checkUserName"></el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="loginForm.password" type="password" placeholder="登录密码" @blur="checkUserPassord"></el-input>
+          <el-input v-model="loginForm.password" type="password" placeholder="登录密码" @blur="checkUserPassord"  @keyup.enter.native="login"></el-input>
         </el-form-item>
         <el-form-item>
           <button class="themeBgBlack" style="width:30%;margin-left:35%" @click="login">登录</button>
