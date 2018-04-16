@@ -4,7 +4,7 @@
     <img class="logo" src="https://moviey.oss-cn-hangzhou.aliyuncs.com/images/logoW.png" alt="">
     <h3 class="crmTitle">Y Movie 后台管理系统</h3>
     <div class="forms">
-      <el-form class="loginForm" :rules="rules" :model="loginForm">
+      <el-form class="loginForm" style="background-color: #3B3A3F;box-shadow:none" :rules="rules" :model="loginForm">
         <el-form-item label="" prop="username">
           <el-input v-model="loginForm.username" placeholder="登录用户名" @blur="checkUserName"></el-input>
         </el-form-item>
@@ -12,7 +12,7 @@
           <el-input v-model="loginForm.password" type="password" placeholder="登录密码" @blur="checkUserPassord"  @keyup.enter.native="login"></el-input>
         </el-form-item>
         <el-form-item>
-          <button class="themeBgBlack" style="width:30%;margin-left:35%" @click="login">登录</button>
+          <button class="themeBgRed" style="width:30%;margin-left:35%" @click="login">登录</button>
         </el-form-item>
       </el-form>
       <div style="clear:both"></div>

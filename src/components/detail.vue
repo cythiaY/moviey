@@ -7,7 +7,7 @@
         <el-col :span="8">
           <div class="left_img">
             <img :src="movieInfo.imgUrl" alt="">
-            <div :class="isStar ? 'el-icon-star-on' : 'el-icon-star-off'" @click="isStar=!isStar;starMovie()">
+            <div :class="isStar ? 'el-icon-star-on' : 'el-icon-star-off'" @click="starMovie">
               <span>{{isStar ? '取消收藏':'点击收藏'}}</span>
             </div>
           </div>
@@ -15,8 +15,8 @@
         <el-col :span="14">
           <div class="right_info">
             <span>{{movieInfo.name}}</span>
-            <span>评分:
-              <span class="themeRed">{{movieInfo.score}}</span>
+            <span style="margin-left:20px;">评分:
+              <span style="color:#f90">{{movieInfo.score}}</span>
             </span>
             <div class="infos">
               国家：
@@ -39,12 +39,15 @@
               </div>
               <div class="comments">
                 <div class="title">评论区
-                  <el-button type="text" class="addBtn el-icon-edit-outline themeRed" @click="commentDialogVisiable = true">我想发表</el-button>
+                  <el-button type="text" class="addBtn el-icon-edit-outline themeRed" @click="showCommentDialog">我想发表</el-button>
                 </div>
                 <div class="commentList">
                   <div class="commentator" v-for="item in commentList">
                     <span class="name themeRed">{{item.userName}}</span>
-                    <span class="dateTime">{{item.time | toDateTime}}</span>
+                    <span style="color:#f90">
+                      <i class="el-icon-star-on" style="margin:0 10px;"></i>{{item.score}}
+                    </span>
+                    <span class="dateTime" style="float:right">{{item.time | toDateTime}}</span>                    
                     <div class="content">{{item.content}}</div>
                   </div>
                 </div>
@@ -172,19 +175,21 @@
         var userData = {
           userId: parseInt(getCookie('id'))
         }
-        this.$get('/user/getUserInfo', userData).then(
-          response => {
-            let str = response.data.star
-            if (str) {
-              this.isStar = str.indexOf(this.$route.params.id + ':') > -1
-            } else {
-              this.isStar = false
+        if (getCookie('id')) {
+          this.$get('/user/getUserInfo', userData).then(
+            response => {
+              let str = response.data.star
+              if (str) {
+                this.isStar = str.indexOf(this.$route.params.id + ':') > -1
+              } else {
+                this.isStar = false
+              }
+            },
+            response => {
+              console.log('获取失败～')
             }
-          },
-          response => {
-            console.log('获取失败～')
-          }
-        )
+          )
+        }
       },
       /**
        *
@@ -203,6 +208,13 @@
             console.log('获取失败～')
           }
         )
+      },
+      showCommentDialog() {
+        if (getCookie('id')) {
+          commentDialogVisiable = true
+        } else {
+          this.$message.warning('请先登录，才能评价哦～')
+        }
       },
       /**
        *
@@ -270,32 +282,38 @@
        *
        */
       starMovie() {
-        var data = {
-          userId: parseInt(getCookie('id')),
-          movieId: parseInt(this.id),
-          tag: this.isStar
-        }
-        this.$get('/user/starMovie', data).then(
-          response => {
-            this.$message.success('操作成功～')
-          },
-          response => {
-            this.$message.error('操作失败～')
-            this.isStar = !this.isStar
+        if (getCookie('id')) {
+          var data = {
+            userId: parseInt(getCookie('id')),
+            movieId: parseInt(this.id),
+            tag: this.isStar
           }
-        )
+          this.$get('/user/starMovie', data).then(
+            response => {
+              this.$message.success('操作成功～')
+              this.isStar = !this.isStar
+            },
+            response => {
+              this.$message.error('操作失败～')
+            }
+          )
+        } else {
+          this.$message.warning('请先登录，才能收藏哦～')
+        }
       },
       /**
        * 更新用户行为记录
        */
       updateBehavior() {
-        this.$get('/movie/recommend/Movies', { user_id: getCookie('id') }).then(
-          response => {
-            if (response.data.length === 0) {
-              this.whichType(this.movieInfo.type)
+        if (getCookie('id')) {
+          this.$get('/movie/recommend/Movies', { user_id: getCookie('id') }).then(
+            response => {
+              if (response.data.length === 0) {
+                this.whichType(this.movieInfo.type)
+              }
             }
-          }
-        )
+          )
+        }
       },
       /**
        *

@@ -176,6 +176,7 @@
                 this.$get('/behavior/getBehavior', {
                   userId: getCookie('id')
                 }).then(response => {
+                  console.log(response)
                   // 全新用户
                   if (response.data.isNew === 1) {
                     this.$get('/movie/recommend/initMovies').then(response => {
