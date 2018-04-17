@@ -211,7 +211,7 @@
       },
       showCommentDialog() {
         if (getCookie('id')) {
-          commentDialogVisiable = true
+          this.$data.commentDialogVisiable = true
         } else {
           this.$message.warning('请先登录，才能评价哦～')
         }
@@ -286,7 +286,7 @@
           var data = {
             userId: parseInt(getCookie('id')),
             movieId: parseInt(this.id),
-            tag: this.isStar
+            tag: !this.isStar
           }
           this.$get('/user/starMovie', data).then(
             response => {
@@ -331,7 +331,7 @@
         if (str.indexOf('喜剧') > -1) {
           this.typeParam.comedyTypeNum = true
         }
-        if (str.indexOf('奇幻') > -1 || str.indexOf('科幻') > -1) {
+        if (str.indexOf('奇幻') > -1 || str.indexOf('冒险') > -1) {
           this.typeParam.scifiTypeNum = true
         }
         if (str.indexOf('犯罪') > -1) {

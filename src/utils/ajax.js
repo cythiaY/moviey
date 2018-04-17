@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 axios.defaults.timeout = 5000
-// axios.defaults.baseURL = 'http://47.106.77.93:8089/api'
-axios.defaults.baseURL = 'http://localhost:8089/api'
+axios.defaults.baseURL = 'http://47.106.77.93:8089/api'
+// axios.defaults.baseURL = 'http://localhost:8089/api'
 
 export function get(url, params = {}) {
   return new Promise((resolve, reject) => {

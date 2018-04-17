@@ -39,7 +39,7 @@
       <div v-if="isRecommend" style="height:100%">
         <div style="width:80%;display:table;height:100%;float:left">
           <el-row :gutter="40">
-            <el-col :span="6" v-for="item in recommendList" :key="item.id">
+            <el-col :span="6" v-for="(item,index) in recommendList" v-if="index < 4" :key="item.id">
               <el-card>
                 <router-link :to="'/detail/' + item.id">
                   <img class="imgDiv" :src="item.imgUrl" alt="">
@@ -235,7 +235,7 @@
                         response => {
                           var total = 0
                           var i = 0
-                          while (total < 1) {
+                          while (total < 2) {
                             var item = response.data.records.slice(i, i + 1)[0]
                             if (this.$data.recommendIds.indexOf(item.id) === -1) {
                               this.$data.recommendIds += item.id
